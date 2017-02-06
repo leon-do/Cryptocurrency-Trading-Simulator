@@ -18,15 +18,17 @@
 			console.log(coinName1) //example: BTC
 			console.log(coinName2) //example: ETC
 
-			// ============================================
-			//WRITE A CHECK TO SEE IF USER SELECTED STUFF
-			// ============================================
+			if (coinName1 === undefined || coinName2 === undefined){
+				alert("Select Coins")
+			} else {
+				//building an object and pass it through callAPI
+				var crypto1 = {name:coinName1}
+				var crypto2 = {name:coinName2}
 
-			//building an object and pass it through callAPI
-			var crypto1 = {name:coinName1}
-			var crypto2 = {name:coinName2}
+				callAPI(crypto1, crypto2)
+			}
 
-			callAPI(crypto1, crypto2)
+
 		})
 
 
