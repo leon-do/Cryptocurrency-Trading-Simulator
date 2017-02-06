@@ -21,5 +21,5 @@ $.get('https://www.coincap.io/coins').done(function(allData){
 		    </p>
 		`)
 	}
-})
+});
 
