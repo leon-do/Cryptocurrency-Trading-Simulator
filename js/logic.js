@@ -56,6 +56,8 @@
 
 
 		function cryptoConvert(crypto1, crypto2){
+			
+			// this 500 will be taken from the database
 			var userMoney = (500 * crypto1.price) / (crypto2.price)
 
 			alert(`Converting 500 ${crypto1.name} to ${crypto2.name} will give you ${userMoney} of ${crypto2.name}`)
