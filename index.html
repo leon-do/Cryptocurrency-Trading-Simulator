@@ -4,61 +4,23 @@
 	<title></title>
 </head>
 <body>
-	<span> BTC </span>
-	<span> ---> </span>
-	<span> ETC </span>
-	<br>
-	<span>Amount:</span>
-	<input>
-	<br>
-	<button> Transfer </button>
+	
+	<button class="btn waves-effect waves-light">Transfer</button>
+	<div class='container row'>
+  		<form class='form1 col s6'> </form>
+  		<form class='form2 col s6'> </form>
 
+	</div>
+	<!-- Jquery -->
 	<script src='https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js'></script>
-
-	<script>
-		/*
-		list of all coins
-			http://www.coincap.io/coins
-		
-		overview for all crypto
-			http://www.coincap.io/front
-		
-		detail data for bitcoin
-			http://www.coincap.io/page/BTC 
-		*/
-
-
-		var crypto1 = {name: 'BTC'}
-		var crypto2 = {name: 'ETC'}
-
-		$.get('http://www.coincap.io/front').done(function(allData){
-
-			// find price of BTC and ETC
-			for (var i = 0; i < allData.length; i++){
-				//if name matches (BTC === BTC)
-				if (allData[i].short === crypto1.name){
-					//add to price to object
-					crypto1.price = allData[i].price
-				}
-
-				if (allData[i].short === crypto2.name){
-					crypto2.price = allData[i].price
-				}
-
-			}//for loop
-
-			
-			cryptoConvert(crypto1, crypto2)
-		})//$get
-
-
-		function cryptoConvert(crypto1, crypto2){
-			var userMoney = (500 * crypto2.price) / (crypto1.price)
-
-			alert(`Converting 500 ${crypto1.name} to ${crypto2.name} will give you ${userMoney} of ${crypto2.name}`)
-		}
-
-	</script>
+	<!-- Materilize CSS-->
+  	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.0/css/materialize.min.css">
+	<!-- Materilize JS -->
+ 	<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.0/js/materialize.min.js"></script>
+    
+    <!-- Our script -->
+	<script src='./js/dynamicHTML.js'></script>
+	<script src='./js/logic.js'></script>
 	
 </body>
 </html>
