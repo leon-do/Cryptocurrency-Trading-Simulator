@@ -18,11 +18,17 @@
 			console.log(coinName1) //example: BTC
 			console.log(coinName2) //example: ETC
 
-			//building an object and pass it through callAPI
-			var crypto1 = {name:coinName1}
-			var crypto2 = {name:coinName2}
+			if (coinName1 === undefined || coinName2 === undefined){
+				alert("Select Coins")
+			} else {
+				//building an object and pass it through callAPI
+				var crypto1 = {name:coinName1}
+				var crypto2 = {name:coinName2}
 
-			callAPI(crypto1, crypto2)
+				callAPI(crypto1, crypto2)
+			}
+
+
 		})
 
 
@@ -56,6 +62,8 @@
 
 
 		function cryptoConvert(crypto1, crypto2){
+
+			// this 500 will be taken from the database
 			var userMoney = (500 * crypto1.price) / (crypto2.price)
 
 			alert(`Converting 500 ${crypto1.name} to ${crypto2.name} will give you ${userMoney} of ${crypto2.name}`)
