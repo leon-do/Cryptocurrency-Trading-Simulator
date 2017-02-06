@@ -2,7 +2,7 @@
 
 
 //radio buttons
-$.get('http://www.coincap.io/coins').done(function(allData){
+$.get('https://www.coincap.io/coins').done(function(allData){
 	for (var i = 0; i < allData.length; i++){
 
 		//radio button column 1

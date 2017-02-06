@@ -28,7 +28,7 @@
 
 
 		function callAPI(crypto1, crypto2){
-			$.get('http://www.coincap.io/front').done(function(allData){
+			$.get('https://www.coincap.io/front').done(function(allData){
 
 				// find price of BTC and ETC
 				for (var i = 0; i < allData.length; i++){
