@@ -4,13 +4,61 @@
 	<title></title>
 </head>
 <body>
-	<span> Bitcoin </span>
+	<span> BTC </span>
 	<span> ---> </span>
-	<span> Ether </span>
+	<span> ETC </span>
 	<br>
 	<span>Amount:</span>
 	<input>
 	<br>
 	<button> Transfer </button>
+
+	<script src='https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js'></script>
+
+	<script>
+		/*
+		list of all coins
+			http://www.coincap.io/coins
+		
+		overview for all crypto
+			http://www.coincap.io/front
+		
+		detail data for bitcoin
+			http://www.coincap.io/page/BTC 
+		*/
+
+
+		var crypto1 = {name: 'BTC'}
+		var crypto2 = {name: 'ETC'}
+
+		$.get('http://www.coincap.io/front').done(function(allData){
+
+			// find price of BTC and ETC
+			for (var i = 0; i < allData.length; i++){
+				//if name matches (BTC === BTC)
+				if (allData[i].short === crypto1.name){
+					//add to price to object
+					crypto1.price = allData[i].price
+				}
+
+				if (allData[i].short === crypto2.name){
+					crypto2.price = allData[i].price
+				}
+
+			}//for loop
+
+			
+			cryptoConvert(crypto1, crypto2)
+		})//$get
+
+
+		function cryptoConvert(crypto1, crypto2){
+			var userMoney = (500 * crypto2.price) / (crypto1.price)
+
+			alert(`Converting 500 ${crypto1.name} to ${crypto2.name} will give you ${userMoney} of ${crypto2.name}`)
+		}
+
+	</script>
+	
 </body>
 </html>
