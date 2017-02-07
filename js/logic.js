@@ -11,6 +11,26 @@
 
 
 
+		// //when user clicks transfer
+		// $('.btn').on('click',function(){
+		// 	var coinName1 = $('input[name=group1]:checked').data('name')
+		// 	var coinName2 = $('input[name=group2]:checked').data('name')
+		// 	console.log(coinName1) //example: BTC
+		// 	console.log(coinName2) //example: ETC
+        //
+		// 	if (coinName1 === undefined || coinName2 === undefined){
+		// 		alert("Select Coins")
+		// 	} else {
+		// 		//building an object and pass it through callAPI
+		// 		var crypto1 = {name:coinName1}
+		// 		var crypto2 = {name:coinName2}
+        //
+		// 		callAPI(crypto1, crypto2)
+		// 	}
+        //
+        //
+		// })
+
 		//when user clicks transfer
 		$('.btn').on('click',function(){
 			var coinName1 = $('input[name=group1]:checked').data('name')
@@ -32,8 +52,6 @@
 
 
 		})
-
-
 
 		function callAPI(crypto1, crypto2, transferAmount){
 			$.get('https://www.coincap.io/front').done(function(allData){

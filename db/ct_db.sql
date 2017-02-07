@@ -22,8 +22,8 @@ CREATE TABLE ct_users
 
 -- Coins and Tokens Eligible for Trading --
 
--- ccc is the amount of chasecryptcoins in the users' porfolio, ccc is pegged to USD
-`ccc` decimal(24,10) Default 0,
+-- USD
+`usd` decimal(24,10) Default 0,
 -- btc is the amount of bitcoin in the users' porfolio
 `btc` decimal(24,10) Default 0,
 -- eth is the amount of ether in the users' porfolio
