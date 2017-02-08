@@ -42,7 +42,7 @@
 
 				var rate = parseFloat(allData.rate)
 
-				crypto1.balance = transferAmount * -1;
+				crypto1.balance = transferAmount;
 				crypto2.balance = transferAmount * rate;
 
 				alert(`user now has ${crypto1.name} : ${crypto1.balance}  and  ${crypto2.name} : ${crypto2.balance}`)
