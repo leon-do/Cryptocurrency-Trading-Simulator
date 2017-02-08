@@ -1,66 +1,74 @@
-	/*
-		list of all coins
-			http://www.coincap.io/coins
-		
-		overview for all crypto
-			http://www.coincap.io/front
-		
-		detail data for bitcoin
-			http://www.coincap.io/page/BTC 
-		*/
-
-		//enables dropdown/select option
-		  $(document).ready(function() {
-		    $('select').material_select();
-		  });
+//enables dropdown/select option
+  $(document).ready(function() {
+    $('select').material_select();
+  });
 
 
-		//when user clicks transfer
-		$('.btn').on('click',function(){
-			var coinName1 = $("#dropdown1 :selected").val()
-			var coinName2 = $("#dropdown2 :selected").val()
-			var transferAmount = $('.transferAmount').val();
+//when user clicks transfer
+$('.btn').on('click',function(){
+	var coinName1 = $("#dropdown1 :selected").val()
+	var coinName2 = $("#dropdown2 :selected").val()
+	var transferAmount = $('.transferAmount').val();
 
 
-			//makes sure user inputfields are all filled out
-			if (coinName1 === "" || coinName2 === "" || transferAmount === ""){
-				alert("Select Coins")
-			} else {
-				//building an object and pass it through callAPI
-				var crypto1 = {name:coinName1}
-				var crypto2 = {name:coinName2}
+	//makes sure user inputfields are all filled out
+	if (coinName1 === "" || coinName2 === ""){
+		alert("Select Coins")
+	}else if (coinName1 === coinName2){
+		alert("Select Different Coins")
+	}else if (transferAmount === ""){
+		alert("Enter Amount")
+	} else {
+		//building an object and pass it through callAPI
+		var crypto1 = {name:coinName1}
+		var crypto2 = {name:coinName2}
 
-				callAPI(crypto1, crypto2, transferAmount)
+		callAPI(crypto1, crypto2, transferAmount)
+	}
+
+
+})
+
+function callAPI(crypto1, crypto2, transferAmount){
+	$.get('https://www.coincap.io/front').done(function(allData){
+
+
+		// find price of BTC and ETC
+		for (var i = 0; i < allData.length; i++){
+
+			// if(BTC === BTC)
+			if (allData[i].short === crypto1.name){
+				//add to price to object
+				crypto1.price = allData[i].price
+			} else if (crypto1.name === "USD") {
+				crypto1.price = 1;
 			}
 
+			if (allData[i].short === crypto2.name){
+				crypto2.price = allData[i].price
+			} else if (crypto2.name === "USD") {
+				crypto2.price = 1;
+			}
+		}//for loop
 
-		})
 
-		function callAPI(crypto1, crypto2, transferAmount){
+		// crypto1.price = 1000 (means 1 bitcoin = $1000)
+		cryptoConvert(crypto1, crypto2, transferAmount)
 
-			$.get(`https://shapeshift.io/rate/${crypto1.name}_${crypto2.name}`).done(function(allData){
+	})//$get
 
-				var rate = parseFloat(allData.rate)
-
-				crypto1.balance = transferAmount;
-				crypto2.balance = transferAmount * rate;
-
-				alert(`user now has ${crypto1.name} : ${crypto1.balance}  and  ${crypto2.name} : ${crypto2.balance}`)
-
-				console.log(crypto1)
-				console.log(crypto2)
-
-			})//$get
-		}//callAPI
+}//callAPI
 
 
 
+function cryptoConvert(crypto1, crypto2, transferAmount){
 
-
-
+	var userMoney = (transferAmount * crypto1.price) / (crypto2.price)
+	
+	alert(`Converting ${transferAmount} ${crypto1.name} to ${crypto2.name} will give you ${userMoney} of ${crypto2.name}`)
+}
 
 
 
 
 
-		
