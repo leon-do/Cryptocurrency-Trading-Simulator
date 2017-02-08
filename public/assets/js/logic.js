@@ -50,7 +50,30 @@ function callAPI(crypto1, crypto2, transferAmount){
 
 
 
+/*
 
+		function callAPI(crypto1, crypto2){
+			$.get('https://www.coincap.io/front').done(function(allData){
+
+				// find price of BTC and ETC
+				for (var i = 0; i < allData.length; i++){
+
+					// if(BTC === BTC)
+					if (allData[i].short === crypto1.name){
+						//add to price to object
+						crypto1.price = allData[i].price
+					}
+
+					if (allData[i].short === crypto2.name){
+						crypto2.price = allData[i].price
+					}
+
+				}//for loop
+
+				cryptoConvert(crypto1, crypto2)
+
+			})//$get
+		}//callAPI
 
 
 
