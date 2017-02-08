@@ -5,17 +5,30 @@
 </head>
 <body>
 	
-	<button class="btn waves-effect waves-light">Transfer</button>
 	<div class='container row'>
-        <a class='dropdown-button btn' href='#' data-activates='dropdown1' name='group1'>Your Portfolio</a>
-            <ul id='dropdown1' class='dropdown-content'>
-            </ul>
-        <a class='dropdown-button btn' href='#' data-activates='dropdown2' name='group1'>Buy</a>
-            <ul id='dropdown2' class='dropdown-content'>
-            </ul>
 
+		<div class="input-field1 col s6">
+			<select id='dropdown1'>
+				<option value="" disabled selected>From</option>
+			</select>
+			<label>Materialize Select</label>
+		</div>
+
+
+		<div class="input-field2 col s6">
+			<select id='dropdown2'>
+				<option value="" disabled selected>To</option>
+			</select>
+			<label>Materialize Select</label>
+		</div>
+
+		<input class='transferAmount' placeholder="enter amount" type="number">
+		<button class="btn waves-effect waves-light">Transfer</button>
 
 	</div>
+
+
+
 	<!-- Jquery -->
 	<script src='https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js'></script>
 	<!-- Materilize CSS-->

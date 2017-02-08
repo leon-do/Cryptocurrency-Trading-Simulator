@@ -9,14 +9,15 @@ for (let i = 0; i < coinArr.length; i++) {
     //dropdown 1
     $('#dropdown1').append(` 
         
-        <li id = '${coinArr[i]}1'>${coinArr[i]}</li>
+        <option value='${coinArr[i]}'>${coinArr[i]}</option>
+
           
     `)
 
     //dropdown 2
     $('#dropdown2').append(` 
         
-        <li id = '${coinArr[i]}2'>${coinArr[i]}</li>
+        <option value='${coinArr[i]}'>${coinArr[i]}</option>
           
     `)
 };
