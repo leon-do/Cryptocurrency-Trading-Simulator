@@ -30,30 +30,8 @@ $('.btn').on('click',function(){
 })
 
 function callAPI(crypto1, crypto2, transferAmount){
-
-	$.get(`https://shapeshift.io/rate/${crypto1.name}_${crypto2.name}`).done(function(allData){
-
-		var rate = parseFloat(allData.rate)
-
-		crypto1.balance = transferAmount;
-		crypto2.balance = transferAmount * rate;
-
-		alert(`user now has ${crypto1.name} : ${crypto1.balance}  and  ${crypto2.name} : ${crypto2.balance}`)
-
-		//send this to the server
-		console.log(crypto1)
-		console.log(crypto2)
-
-	})//$get
-}//callAPI
-
-
-
-
-/*
-
-function callAPI(crypto1, crypto2){
 	$.get('https://www.coincap.io/front').done(function(allData){
+
 
 		// find price of BTC and ETC
 		for (var i = 0; i < allData.length; i++){
@@ -62,29 +40,33 @@ function callAPI(crypto1, crypto2){
 			if (allData[i].short === crypto1.name){
 				//add to price to object
 				crypto1.price = allData[i].price
+			} else if (crypto1.name === "USD") {
+				crypto1.price = 1;
 			}
 
 			if (allData[i].short === crypto2.name){
 				crypto2.price = allData[i].price
+			} else if (crypto2.name === "USD") {
+				crypto2.price = 1;
 			}
-
 		}//for loop
 
-		cryptoConvert(crypto1, crypto2)
+
+		// crypto1.price = 1000 (means 1 bitcoin = $1000)
+		cryptoConvert(crypto1, crypto2, transferAmount)
 
 	})//$get
+
 }//callAPI
 
 
-function cryptoConvert(crypto1, crypto2){
 
-	// this 500 will be taken from the database
-	var userMoney = (500 * crypto1.price) / (crypto2.price)
+function cryptoConvert(crypto1, crypto2, transferAmount){
 
-	alert(`Converting 500 ${crypto1.name} to ${crypto2.name} will give you ${userMoney} of ${crypto2.name}`)
+	var userMoney = (transferAmount * crypto1.price) / (crypto2.price)
+	
+	alert(`Converting ${transferAmount} ${crypto1.name} to ${crypto2.name} will give you ${userMoney} of ${crypto2.name}`)
 }
-
-
 
 
 

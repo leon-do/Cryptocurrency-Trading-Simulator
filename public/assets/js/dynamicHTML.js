@@ -10,7 +10,6 @@ for (let i = 0; i < coinArr.length; i++) {
         
         <option value='${coinArr[i]}'>${coinArr[i]}</option>
 
-          
     `)
 
     //dropdown 2
