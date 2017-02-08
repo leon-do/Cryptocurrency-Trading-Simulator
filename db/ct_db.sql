@@ -3,7 +3,7 @@ CREATE DATABASE ct_db;
 USE ct_db;
 
 -- Create the table users.
-CREATE TABLE ct_users
+CREATE TABLE ct_users;
 (
 `id` int NOT NULL AUTO_INCREMENT,
 -- username will be a user generated username specifying each individual users' login name
