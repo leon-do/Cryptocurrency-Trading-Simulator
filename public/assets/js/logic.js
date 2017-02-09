@@ -64,8 +64,20 @@ function callAPI(crypto1, crypto2, transferAmount){
 function cryptoConvert(crypto1, crypto2, transferAmount){
 
 	var userMoney = (transferAmount * crypto1.price) / (crypto2.price)
+
+	//alert(`Converting ${transferAmount} ${crypto1.name} to ${crypto2.name} will give you ${userMoney} of ${crypto2.name}`)
+
+	crypto1.sent = transferAmount;
+	crypto2.recieved = userMoney;
 	
-	alert(`Converting ${transferAmount} ${crypto1.name} to ${crypto2.name} will give you ${userMoney} of ${crypto2.name}`)
+	send2Server(crypto1, crypto2, transferAmount)
+}
+
+function send2Server(crypto1, crypto2, transferAmount){
+	$.post('http://localhost:8000/transfer',{
+		crypto1: crypto1,
+		crypto2: crypto2
+	})
 }
 
 
