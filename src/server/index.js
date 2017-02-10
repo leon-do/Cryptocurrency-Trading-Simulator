@@ -1,6 +1,7 @@
 //  Dependencies
 const express = require('express');
 const bodyParser = require('body-parser');
+const path = require('path');
 
 //  Setting up the express app
 const app = express();
@@ -13,11 +14,13 @@ app.use(bodyParser.text());
 app.use(bodyParser.json({ type: "application/vnd.api+json" }));
 
 //  Static directory
-app.use(express.static('./app'));
+app.use(express.static(path.join(__dirname + '/../client')));
+app.use((req, res) => {
+	res.sendFile(path.join(__dirname + '/../client/index.html'));
+});
 
 //  Routes
-require('./routes/html-routes')(app);
-require('./routes/api-routes')(app);
+require('./routes/get/home')(app);          // Home page
 
 //  Starting the express app
 app.listen(PORT, () => {
