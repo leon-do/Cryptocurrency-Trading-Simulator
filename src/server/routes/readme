@@ -1,0 +1,8 @@
+These are standard routing files for express separated into folders based on HTTP method.
+
+ One route per file, each required by ../index.js
+
+ ########
+
+home.js is the only route that should send back an HTML file.
+Any other HTML routing (i.e. to/from login) is handled by Angular.

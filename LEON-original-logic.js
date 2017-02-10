@@ -1,3 +1,4 @@
+/*
 //enables dropdown/select option
   $(document).ready(function() {
     $('select').material_select();
@@ -80,8 +81,5 @@ function send2Server(crypto1, crypto2, transferAmount){
 		crypto2: crypto2
 	})
 }
-
-
-
-
+*/
 

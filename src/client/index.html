@@ -3,28 +3,36 @@
 <head>
 	<title></title>
 
-	<!-- Angular CDN -->
+	<!-- Angular -->
 	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.1/angular.min.js"></script>
+	<!-- Angular UI-Router -->
+	<script src="//unpkg.com/angular-ui-router/release/angular-ui-router.min.js"></script>
+
+
+	<!-- cryptoApp code -->
+	<script src='app.module.js'></script>
+	<script src="components/wallet.service.js"></script>
+	<script src="components/wallet.component.js"></script>
 </head>
 <body data-ng-app="myApp">
 	
 	<div class='container row'>
 
-		<ng-view></ng-view>
+		<ui-view></ui-view>
 
-		<div class="col s6" data-ng-controller="List1Controller">
+		<div class="col s6" ><!--data-ng-controller="List1Controller"-->
 			<select id='dropdown1'>
 				<option value="" disabled selected>From</option>
-				<option data-ng-repeat="crypto in cryptos" value="{{crypto.name}}" id="list-1-{{$index}}">{{crypto.name}}</option>
+				<!--<option data-ng-repeat="crypto in cryptos" value="{{crypto.name}}" id="list-1-{{$index}}">{{crypto.name}}</option>-->
 			</select>
 			<label>From</label>
 		</div>
 
 
-		<div class="col s6" data-ng-controller="List2Controller">
+		<div class="col s6" ><!--data-ng-controller="List2Controller"-->
 			<select id='dropdown2'>
 				<option value="" disabled selected>To</option>
-				<option data-ng-repeat="crypto in cryptos" value="{{crypto.name}}" id="list-2-{{$index}}">{{crypto.name}}</option>
+				<!--<option data-ng-repeat="crypto in cryptos" value="{{crypto.name}}" id="list-2-{{$index}}">{{crypto.name}}</option>-->
 			</select>
 			<label>To</label>
 		</div>
@@ -35,18 +43,11 @@
 	</div>
 
 
-	<!-- Wallet Template -->
-	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.25/angular-route.min.js"></script>
 	<!-- Jquery -->
 	<script src='https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js'></script>
 	<!-- Materilize CSS-->
   	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.0/css/materialize.min.css">
 	<!-- Materilize JS -->
  	<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.0/js/materialize.min.js"></script>
-    
-    <!-- Our script -->
-	<script src='/assets/js/dynamicHTML.js'></script>
-	<script src='/assets/js/logic.js'></script>
-	
 </body>
 </html>
