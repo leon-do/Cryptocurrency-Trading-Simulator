@@ -1,53 +1,100 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title></title>
+	<title>Crypto Exchange</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<!-- Angular Material style sheet -->
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/angular-material/1.1.0/angular-material.min.css">
 
 	<!-- Angular -->
-	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.1/angular.min.js"></script>
-	<!-- Angular UI-Router -->
-	<script src="//unpkg.com/angular-ui-router/release/angular-ui-router.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.5/angular.min.js"></script>
+	<!-- Angular ngRoute -->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.5/angular-route.min.js"></script>
+
+	<!-- Angular library dependencies for Angular Material -->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.5/angular-animate.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.5/angular-aria.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.5/angular-messages.min.js"></script>
+
+	<!-- Angular Material Library -->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/angular-material/1.1.0/angular-material.min.js"></script>
 
 
 	<!-- cryptoApp code -->
 	<script src='app.module.js'></script>
-	<script src="components/wallet.service.js"></script>
-	<script src="components/wallet.component.js"></script>
+	<script src="wallet/wallet.controller.js"></script>
+	<script src="list-1/list1.controller.js"></script>
+	<script src="list-2/list2.controller.js"></script>
+
 </head>
-<body data-ng-app="myApp">
+<body ng-app="myApp">
 	
-	<div class='container row'>
 
-		<ui-view></ui-view>
+		<ng-view ng-cloak></ng-view>
 
-		<div class="col s6" ><!--data-ng-controller="List1Controller"-->
-			<select id='dropdown1'>
-				<option value="" disabled selected>From</option>
-				<!--<option data-ng-repeat="crypto in cryptos" value="{{crypto.name}}" id="list-1-{{$index}}">{{crypto.name}}</option>-->
-			</select>
-			<label>From</label>
-		</div>
+	<div layout="column">
 
+		<md-content layout-padding>
 
-		<div class="col s6" ><!--data-ng-controller="List2Controller"-->
-			<select id='dropdown2'>
-				<option value="" disabled selected>To</option>
-				<!--<option data-ng-repeat="crypto in cryptos" value="{{crypto.name}}" id="list-2-{{$index}}">{{crypto.name}}</option>-->
-			</select>
-			<label>To</label>
-		</div>
+			<div>
 
-		<input class='transferAmount' placeholder="enter amount" type="number">
-		<button class="btn waves-effect waves-light">Transfer</button>
+				<form name="transferForm">
+
+					<div layout-gt-sm="row" ng-cloak>
+
+						<div ng-controller="List1Controller" class="md-block" flex-gt-sm>
+
+							<label>From</label>
+							<md-select aria-label="From" name="transferFrom" ng-model="selected" ng-model-options="{trackBy: '$value'}" required>
+								<md-option ng-repeat="crypto in cryptos" ng-value="crypto.name">
+									{{crypto.name}}
+								</md-option>
+							</md-select>
+
+						</div>
+
+						<div ng-controller="List2Controller" class="md-block" flex-gt-sm>
+
+							<label>To</label>
+							<md-select aria-label="To" name="transferTo" ng-model="selected" ng-model-options="{trackBy: '$value'}" required>
+								<md-option ng-repeat="crypto in cryptos" ng-value="crypto.name">
+									{{crypto.name}}
+								</md-option>
+							</md-select>
+
+						</div>
+
+					</div>
+
+					<div layout-gt-sm="row">
+
+						<div class="md-block" flex-gt-sm>
+
+							<md-input-container>
+								<label>Enter amount to transfer</label>
+								<input name="transferAmount" ng-model="transferAmount" type="number" required>
+								<div ng-messages="transferForm.transferAmount.$error">
+									<div ng-message="required">This is required!</div>
+									<div ng-message="number">Transfer amount must be a number.</div>
+								</div>
+							</md-input-container>
+
+						</div>
+
+						<div class="md-block" flex-gt-sm>
+
+							<md-button class="md-raised md-primary" id="transfer-button">Transfer</md-button>
+
+						</div>
+					</div>
+
+				</form>
+
+			</div>
+
+		</md-content>
 
 	</div>
 
-
-	<!-- Jquery -->
-	<script src='https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js'></script>
-	<!-- Materilize CSS-->
-  	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.0/css/materialize.min.css">
-	<!-- Materilize JS -->
- 	<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.0/js/materialize.min.js"></script>
 </body>
 </html>

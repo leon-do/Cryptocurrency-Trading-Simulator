@@ -15,12 +15,16 @@ app.use(bodyParser.json({ type: "application/vnd.api+json" }));
 
 //  Static directory
 app.use(express.static(path.join(__dirname + '/../client')));
-app.use((req, res) => {
+/*app.use((req, res) => {
 	res.sendFile(path.join(__dirname + '/../client/index.html'));
-});
+});*/
 
-//  Routes
-require('./routes/get/home')(app);          // Home page
+//  Routes //
+
+// Home page
+require('./routes/get/home')(app);
+// Wallet API
+require('./routes/get/wallet.data')(app);
 
 //  Starting the express app
 app.listen(PORT, () => {
