@@ -1,5 +1,5 @@
 var bcrypt = require('bcrypt'),
-    Model = require('../model/models.js')
+    Model = require('../../src/server/models/models.js')
 
 module.exports.show = function(req, res) {
   res.render('signup')

@@ -46,4 +46,8 @@ const User = sequelize.define('users', {
     }
 });
 
+//Sync to User table in the database
+// =============================================================
+User.sync();
+
 module.exports = User;
