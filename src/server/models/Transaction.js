@@ -7,6 +7,13 @@ const Transaction = sequelize.define('transactions', {
 		autoIncrement: true,
 		primaryKey: true
 	},
+    username: {
+        type: Sequelize.STRING,
+        allowNull: false,
+        validate: {
+            is: /^[a-z0-9\_\-]+$/i,
+        }
+    },
 	usd: {
 		type: Sequelize.DECIMAL(24,10),
 		defaultValue: 100000
@@ -66,5 +73,9 @@ const Transaction = sequelize.define('transactions', {
         }
     }
 });
+
+//Sync to Transaction table in the database
+// =============================================================
+Transaction.sync();
 
 module.exports = Transaction;
