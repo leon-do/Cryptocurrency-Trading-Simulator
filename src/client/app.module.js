@@ -1,16 +1,9 @@
-angular.module('myApp', ['ui.router'])
+angular.module('myApp', ['ngMaterial', 'ngRoute', 'ngMessages'])
 
-	.config(function ($stateProvider) {
-
-		var states = [
-			{
-				name: 'wallet',
-				url: '/',
-				component: 'wallet'
-			}
-		];
-		
-		states.forEach(function (state) {
-			$stateProvider.state(state);
+	.config(['$routeProvider', function ($routeProvider) {
+		$routeProvider
+		.when('/', {
+			templateUrl: './wallet/wallet.template.html',
+			controller: 'WalletController'
 		});
-	});
+	}]);
