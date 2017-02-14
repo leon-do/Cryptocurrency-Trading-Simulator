@@ -1,10 +1,3 @@
-// Dependencies
-// =============================================================
-const express = require('express');
-const path = require('path');
-const router = express.Router();
-//express session
-
 // Models
 // =============================================================
 const User = require('../../models/User');
@@ -12,34 +5,21 @@ const Transaction = require('../../models/Transaction');
 //the below is temporary
 const data = require('./data');
 
-//redirect to wallet route by default
+//use /wallet by for testing until login works
 // =============================================================
-router.get('/', function(req, res) {
-    res.redirect('/wallet');
-});
-
-//Return last transaction row from DB for that user
-// =============================================================
-router.get('/:username/wallet', function(req, res) {
-    Transaction.findOne({
-        where: {
-            username: req.params.username
-        },
-        order: [[ 'createdAt', 'DESC' ]],
-
-    }).then(function(data) {
-        res.json(data);
-    });
-});
-
-
-
-//initial load
-// =============================================================
-router.use(function(req, res) {
-    res.redirect('/wallet');
-});
-
-//export
-// =============================================================
-module.exports = router;
+module.exports = (app) => {
+	app.get('/wallet', (req, res) => {
+		res.json(data);
+	});
+	
+	app.get('/:username/wallet', (req, res) => {
+		Transaction.findOne({
+			where: {
+				username: req.params.username
+			},
+			order: [[ 'createdAt', 'DESC' ]]
+		}).then((data) => {
+			res.json(data);
+		});
+	});
+};
