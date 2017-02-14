@@ -1,36 +1,5 @@
 angular.module('myApp', ['ngMaterial', 'ngRoute', 'ngMessages'])
 
-	.controller('HomeController', function ($scope, $http) {
-		// 'user' should be the authenticated user's username for production
-		$http.get('http://localhost:8000/wallet').then(function (response) {
-			console.log(response);
-			$scope.cryptos = response.data.cryptos;
-		}, function (error) {
-			console.log(error);
-		});
-	})
-
-	.filter('owned', function () {
-		return function (input) {
-			input = input || [];
-			var output = [];
-			for (var i = 0; i < input.length; i++) {
-				var obj = input[i];
-				if (obj.balance > 0) {
-					output.push(obj);
-				}
-			}
-			return output;
-		}
-	})
-
-	.component('userWallet', {
-		templateUrl: './home/wallet.template.html',
-		bindings: {
-			coins: '<'
-		}
-	})
-
 	.component('transferForm', {
 		templateUrl: './home/transfer.template.html',
 		controller: ['$http', function TransferController($http) {
@@ -60,6 +29,23 @@ angular.module('myApp', ['ngMaterial', 'ngRoute', 'ngMessages'])
 		bindings: {
 			coins: '='
 		}
+	})
+
+	.component('userWallet', {
+		templateUrl: './home/wallet.template.html',
+		bindings: {
+			coins: '<'
+		}
+	})
+
+	.controller('HomeController', function ($scope, $http) {
+		// 'user' should be the authenticated user's username for production
+		$http.get('http://localhost:8000/wallet').then(function (response) {
+			console.log(response);
+			$scope.cryptos = response.data.cryptos;
+		}, function (error) {
+			console.log(error);
+		});
 	})
 
 	.config(function ($routeProvider, $locationProvider) {
