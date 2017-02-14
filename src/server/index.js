@@ -25,6 +25,7 @@ app.use(express.static(path.join(__dirname + '/../client')));
 require('./routes/get/home')(app);
 // Wallet API
 require('./routes/get/wallet.data')(app);
+require('./routes/post/transfer')(app);
 
 //  Starting the express app
 app.listen(PORT, () => {

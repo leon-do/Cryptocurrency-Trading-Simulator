@@ -1,0 +1,59 @@
+<form name="transferForm">
+
+	<div layout-gt-sm="row"> <!-- styling -->
+
+		<div class="md-block" flex-gt-sm> <!-- styling -->
+
+			<label>From</label>
+			<md-select aria-label="From"
+			           name="transferFrom"
+			           ng-model="coin1"
+			           ng-model-options="{trackBy: '$value'}"
+			           required>
+				<md-option ng-repeat="coin in $ctrl.coins" ng-if="coin.balance > 0" ng-value="coin.name">
+					{{coin.name}}: {{coin.balance}}
+				</md-option>
+			</md-select>
+
+		</div>
+
+		<div class="md-block" flex-gt-sm> <!-- styling -->
+
+			<label>To</label>
+			<md-select aria-label="To"
+			           name="transferTo"
+			           ng-model="coin2"
+			           ng-model-options="{trackBy: '$value'}"
+			           required>
+				<md-option ng-repeat="c in $ctrl.coins" ng-if="c.name != coin1" ng-value="c.name">
+					{{c.name}}
+				</md-option>
+			</md-select>
+
+		</div>
+
+	</div>
+
+	<div layout-gt-sm="row">
+
+		<div class="md-block" flex-gt-sm>
+
+			<md-input-container>
+				<label>Enter amount to transfer</label>
+				<input name="transferAmount" ng-model="transferAmount" type="number" required>
+				<div ng-messages="transferForm.transferAmount.$error">
+					<div ng-message="required">This is required!</div>
+					<div ng-message="number">Transfer amount must be a number.</div>
+				</div>
+			</md-input-container>
+
+		</div>
+
+		<div class="md-block" flex-gt-sm>
+
+			<md-button class="md-raised md-primary" id="transfer-button" ng-click="$ctrl.transfer(coin1, coin2, transferAmount)">Transfer</md-button>
+
+		</div>
+	</div>
+
+</form>

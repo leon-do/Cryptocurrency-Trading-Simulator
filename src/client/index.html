@@ -23,78 +23,13 @@
 	<!-- cryptoApp code -->
 	<script src='app.module.js'></script>
 	<script src="wallet/wallet.controller.js"></script>
-	<script src="list-1/list1.controller.js"></script>
-	<script src="list-2/list2.controller.js"></script>
+	<script src="transfer/transfer.directive.js"></script>
 
 </head>
 <body ng-app="myApp">
 	
 
 		<ng-view ng-cloak></ng-view>
-
-	<div layout="column">
-
-		<md-content layout-padding>
-
-			<div>
-
-				<form name="transferForm">
-
-					<div layout-gt-sm="row" ng-cloak>
-
-						<div ng-controller="List1Controller" class="md-block" flex-gt-sm>
-
-							<label>From</label>
-							<md-select aria-label="From" name="transferFrom" ng-model="selected" ng-model-options="{trackBy: '$value'}" required>
-								<md-option ng-repeat="crypto in cryptos" ng-value="crypto.name">
-									{{crypto.name}}
-								</md-option>
-							</md-select>
-
-						</div>
-
-						<div ng-controller="List2Controller" class="md-block" flex-gt-sm>
-
-							<label>To</label>
-							<md-select aria-label="To" name="transferTo" ng-model="selected" ng-model-options="{trackBy: '$value'}" required>
-								<md-option ng-repeat="crypto in cryptos" ng-value="crypto.name">
-									{{crypto.name}}
-								</md-option>
-							</md-select>
-
-						</div>
-
-					</div>
-
-					<div layout-gt-sm="row">
-
-						<div class="md-block" flex-gt-sm>
-
-							<md-input-container>
-								<label>Enter amount to transfer</label>
-								<input name="transferAmount" ng-model="transferAmount" type="number" required>
-								<div ng-messages="transferForm.transferAmount.$error">
-									<div ng-message="required">This is required!</div>
-									<div ng-message="number">Transfer amount must be a number.</div>
-								</div>
-							</md-input-container>
-
-						</div>
-
-						<div class="md-block" flex-gt-sm>
-
-							<md-button class="md-raised md-primary" id="transfer-button">Transfer</md-button>
-
-						</div>
-					</div>
-
-				</form>
-
-			</div>
-
-		</md-content>
-
-	</div>
 
 </body>
 </html>
