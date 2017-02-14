@@ -1,4 +1,4 @@
-const data = require('../get/data');
+const data = require('../routes/get/wallet.data.js');
 
 module.exports = (app) => {
 
