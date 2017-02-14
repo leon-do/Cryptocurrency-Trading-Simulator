@@ -1,10 +1,3 @@
-// Dependencies
-// =============================================================
-const express = require('express');
-const path = require('path');
-const router = express.Router();
-//express session
-
 // Models
 // =============================================================
 const User = require('../../models/User');
@@ -14,11 +7,12 @@ const data = require('./data');
 
 //use /wallet by for testing until login works
 // =============================================================
-router.get('/wallet', (req, res) => {
+module.exports = (app) => {
+	app.get('/wallet', (req, res) => {
 		res.json(data);
-});
-
-router.get('/:username/wallet', (req, res) => {
+	});
+	
+	app.get('/:username/wallet', (req, res) => {
 		Transaction.findOne({
 			where: {
 				username: req.params.username
@@ -27,6 +21,5 @@ router.get('/:username/wallet', (req, res) => {
 		}).then((data) => {
 			res.json(data);
 		});
-});
-
-module.exports = router;
+	});
+};
