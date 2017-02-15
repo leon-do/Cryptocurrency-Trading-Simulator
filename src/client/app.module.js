@@ -1,5 +1,47 @@
 angular.module('myApp', ['ngMaterial', 'ngRoute', 'ngMessages'])
 
+	.controller('LoginController', function ($location, $scope, $http, $httpParamSerializerJQLike) {
+		var self = $scope;
+
+		self.login = function (username, password) {
+			$http({
+				method: 'POST',
+				url: 'http://localhost:8000/login',
+				data: $httpParamSerializerJQLike({
+					username: username,
+					password: password
+				}),
+				headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+			}).then(function (response) {
+				if (response.status == 200) { $location.url('/home') }
+				else { console.log('error', response) }
+			});
+		};
+
+		self.newUser = function (username, password, confirm) {
+			if (password.length <= 5) {
+				alert('Password must be longer than 5 characters.');
+			}
+			else if (password != confirm ) {
+				alert('Passwords don\'t match.');
+			}
+			else {
+				$http({
+					method: 'POST',
+					url: 'http://localhost:8000/new',
+					data: $httpParamSerializerJQLike({
+						username: username,
+						password: password
+					}),
+					headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+				}).then(function (response) {
+					if (response.status == 200) { $location.url('/home') }
+					else { alert('error', response) }
+				});
+			}
+		};
+	})
+
 	.component('transferForm', {
 		templateUrl: './home/transfer.template.html',
 		controller: ['$http', function TransferController($http) {
@@ -48,9 +90,17 @@ angular.module('myApp', ['ngMaterial', 'ngRoute', 'ngMessages'])
 		});
 	})
 
-	.config(function ($routeProvider, $locationProvider) {
+	.config(function ($routeProvider) {
 		$routeProvider
-			.when('/', {
+			.when('/login', {
+				templateUrl: './login/login.template.html',
+				controller: 'LoginController'
+			})
+			.when('/login/new', {
+				templateUrl: './login/newUser.template.html',
+				controller: 'LoginController'
+			})
+			.when('/home', {
 				templateUrl: './home/home.template.html',
 				controller: 'HomeController'
 			});
