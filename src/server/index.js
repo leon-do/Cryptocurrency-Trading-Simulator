@@ -27,6 +27,7 @@ passportConfig(app);
 // Home page
 require('./routes/get/home')(app);
 // Wallet API
+
 require('./routes/get/wallet.data')(app);
 require('./routes/post/transfer')(app);
 // Login API
