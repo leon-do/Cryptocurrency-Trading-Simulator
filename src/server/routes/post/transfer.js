@@ -1,5 +1,5 @@
-const data = require('../routes/get/wallet.data.js');
-const Transaction = require('../models/Transaction');
+const data = require('../get/wallet.data.js');
+const Transaction = require('../../models/Transaction');
 
 
 module.exports = (app) => {
