@@ -1,5 +1,5 @@
 <ul>
-	<li ng-repeat="coin in $ctrl.coins">
-		{{coin.name + ": " + coin.balance}}
+	<li ng-repeat="(key, value) in $ctrl.coins">
+		{{key + ": " + value}}
 	</li>
 </ul>
