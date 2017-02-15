@@ -13,7 +13,7 @@ angular.module('myApp', ['ngMaterial', 'ngRoute', 'ngMessages'])
 				}),
 				headers: {'Content-Type': 'application/x-www-form-urlencoded'}
 			}).then(function (response) {
-				if (response.status == 200) { $location.url('/home') }
+				if (response.status == 200) { $location.url('/'+response.data.userId+'/'+response.data.username+'/home') }
 				else { console.log('error', response) }
 			});
 		};
@@ -44,14 +44,15 @@ angular.module('myApp', ['ngMaterial', 'ngRoute', 'ngMessages'])
 
 	.component('transferForm', {
 		templateUrl: './home/transfer.template.html',
-		controller: ['$http', function TransferController($http) {
+		controller: ['$rootScope', '$http', function TransferController($rootScope, $http) {
 			var self = this;
+			var userId = $rootScope.curruserid;
 
 			self.transfer = function (coin1, coin2, amount) {
 				console.log(coin1, coin2, amount);
 				$http({
 					method: 'POST',
-					url: 'http://localhost:8000/api/transfer',
+					url: 'http://localhost:8000/'+userId+'/transfer',
 					data: {
 						coin1: coin1,
 						coin2: coin2,
@@ -60,7 +61,7 @@ angular.module('myApp', ['ngMaterial', 'ngRoute', 'ngMessages'])
 				}).then(function (response) {
 					// success
 					console.log(response);
-					self.coins = response.data.cryptos;
+					self.coins = response.data.wallet;
 				}, function (error) {
 					// failure
 					console.log(error);
@@ -80,11 +81,12 @@ angular.module('myApp', ['ngMaterial', 'ngRoute', 'ngMessages'])
 		}
 	})
 
-	.controller('HomeController', function ($scope, $http) {
+	.controller('HomeController', function ($rootScope, $scope, $http) {
 		// 'user' should be the authenticated user's username for production
-		$http.get('http://localhost:8000/wallet').then(function (response) {
+		var url = 'http://localhost:8000/wallet/' + $rootScope.curruserid;
+		$http.get(url).then(function (response) {
 			console.log(response);
-			$scope.cryptos = response.data.cryptos;
+			$scope.cryptos = response.data.wallet;
 		}, function (error) {
 			console.log(error);
 		});
@@ -100,8 +102,24 @@ angular.module('myApp', ['ngMaterial', 'ngRoute', 'ngMessages'])
 				templateUrl: './login/newUser.template.html',
 				controller: 'LoginController'
 			})
-			.when('/home', {
+			.when('/:username/home', {
 				templateUrl: './home/home.template.html',
 				controller: 'HomeController'
+			})
+			.when('/:userId/:username/home', {
+				redirectTo: function (routeParams, path, search) {
+					return '/' + routeParams.username + '/home';
+				}
 			});
+	})
+
+	.run(function ($rootScope) {
+		$rootScope.$on('$routeChangeSuccess', function (currentRoute, previousRoute) {
+			if (previousRoute.$$route.originalPath == "/:userId/:username/home") {
+				console.log('inner', previousRoute);
+				$rootScope.curruserid = previousRoute.params.userId;
+				$rootScope.currusername = previousRoute.params.username;
+			}
+			console.log('route', previousRoute);
+		});
 	});

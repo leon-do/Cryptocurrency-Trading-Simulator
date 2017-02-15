@@ -1,5 +1,5 @@
-const path = require('path'),
-	passport = require('passport');
+const path = require('path');
+const passport = require('passport');
 
 module.exports = (app) => {
 

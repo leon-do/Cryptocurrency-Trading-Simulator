@@ -10,8 +10,8 @@
 			           ng-model="coin1"
 			           ng-model-options="{trackBy: '$value'}"
 			           required>
-				<md-option ng-repeat="coin in $ctrl.coins" ng-if="coin.balance > 0" ng-value="coin.name">
-					{{coin.name}}: {{coin.balance}}
+				<md-option ng-repeat="(key, value) in $ctrl.coins" ng-if="value > 0" ng-value="key">
+					{{key}}: {{value}}
 				</md-option>
 			</md-select>
 
@@ -25,14 +25,14 @@
 			           ng-model="coin2"
 			           ng-model-options="{trackBy: '$value'}"
 			           required>
-				<md-option ng-repeat="c in $ctrl.coins" ng-if="c.name != coin1" ng-value="c.name">
-					{{c.name}}
+				<md-option ng-repeat="(k, v) in $ctrl.coins" ng-if="k != coin1" ng-value="k">
+					{{k}}
 				</md-option>
 			</md-select>
 
 		</div>
 
-	</div>
+	</div>g
 
 	<div layout-gt-sm="row">
 

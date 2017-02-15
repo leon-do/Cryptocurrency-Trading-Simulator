@@ -1,97 +1,62 @@
-//const data = require('../get/wallet.data.js');
-const Transaction = require('../../models/Transaction');
-const request = require("request")
-const data = require('../get/data.js')  //comment this once wallet.data.js works
+const User = require('../../models/User');
+const request = require("request");
 
 module.exports = (app) => {
 
-    app.post('/api/transfer', (req, res) => {
+    app.post('/:userId/transfer', (req, res) => {
         let coin1 = req.body.coin1, //from
             coin2 = req.body.coin2, // to
             amount = req.body.amount;
 
-        console.log('Posted to http://localhost:8000/api/transfer\n>', coin1, coin2, amount);
+        console.log('Posted to http://localhost:8000/transfer\n>', coin1, coin2, amount);
 
-        let indexFrom,
-            indexTo;
-        let fromCoin = {},
-            toCoin = {};
+        User.findById(req.params.userId, (err, user) => {
+	        if (err) { res.status(500).end(); console.log(err); }
 
-        data.cryptos.forEach((element, i) => {
-            if (element.name == coin1) {
-                indexFrom = i;
-                fromCoin = element;
-            } else if (element.name == coin2) {
-                indexTo = i;
-                toCoin = element;
+	        // check balance
+	        if (user.wallet[coin1] < amount) {
+		        res.status(403).json({ "reason": "Forbidden: Insufficient Funds"});
+            }
+            else {
+		        request('http://coincap.io/front', function (error, response, body) {
+		        	if (error) throw error;
+                    let allData = JSON.parse(body);
+
+                    let conversion,
+                        price1,
+                        price2,
+	                    time;
+
+			        for (let i = 0; i < allData.length; i++) {
+			        	if (coin1 == 'USD') {price1 = 1;}
+			        	if (coin2 == 'USD') {price2 = 1;}
+
+                        if (!price1 && coin1 === allData[i].short) {
+                            price1 = allData[i].price;
+                            if (!time) { time = allData[i].time; }
+                        }
+                        else if (!price2 && coin2 === allData[i].short) {
+                            price2 = allData[i].price;
+	                        if (!time) { time = allData[i].time; }
+                        }
+
+                        if (price1 && price2) { break }
+			        }
+
+			        conversion = (price1 * amount) / price2;
+
+			        user.transactions.unshift(user.wallet);
+
+			        user.updateWallet(coin1, coin2, amount, conversion, time, () => {
+				        console.log('thisthisthis');
+				        user.save((err, newUser) => {
+					        if (err) {console.log(err);}
+					        console.log('user saved');
+					        res.json({ "wallet": newUser.wallet.toJSON() });
+				        });
+			        });
+		        });
             }
         });
-
-        if (amount > fromCoin.balance) {
-            // 403 == Forbidden https://httpstatuses.com/
-            res.status(403).json({ "reason": "Forbidden: Insufficient Funds"});
-        }
-        else {
-
-            Transaction.findOne({
-                where: {
-                    username: "leon"
-                },
-                order: [[ 'createdAt', 'DESC' ]]
-            }).then((data) => {
-
-
-
-
-
-
-
-                // the math
-               request('http://coincap.io/front', function (error, response, body) {
-
-                var allData = JSON.parse(body)
-                
-                var conversionRatio;
-
-                // find price of BTC and ETC
-                for (var i = 0; i < allData.length; i++){
-                    // if(BTC === BTC)
-                    if (coin1 === allData[i].short){
-                        //add to price to object
-                        var price1 = allData[i].price
-                    }
-
-                    if (coin2 === allData[i].short){
-                        var price2 = allData[i].price
-                    }
-
-                    conversionRatio = price2/price1
-                }//for loop
-      
-        
-                updateBalance(conversionRatio)
-
-            })//$get
-
-
-
-            function updateBalance(conversionRatio){
-
-                for (var key in data.dataValues){
-                    if (key == coin1.toLowerCase()){
-                        data.dataValues[key] = data.dataValues[key] - amount;
-                    }
-                    if (key == coin2.toLowerCase()){
-                        data.dataValues[key] = data.dataValues[key] + amount*conversionRatio;
-                    }
-                }
-
-                // PUT THIS OBJECT TO THE DB
-                console.log(data.dataValues)
-
-            }
-
-            });
-        }
     });
 };

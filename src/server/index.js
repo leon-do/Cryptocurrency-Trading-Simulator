@@ -10,6 +10,7 @@ const express = require('express'),
 const app = express();
 const PORT = 8000;
 
+
 //  Static directory
 app.use(express.static(path.join(__dirname + '/../client')));
 
@@ -30,7 +31,7 @@ require('./routes/get/home')(app);
 
 require('./routes/get/wallet.data')(app);
 require('./routes/post/transfer')(app);
-// Login API
+// // Login API
 require('./routes/post/login')(app);
 
 //  Starting the express app

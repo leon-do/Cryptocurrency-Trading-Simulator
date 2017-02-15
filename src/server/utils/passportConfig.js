@@ -9,16 +9,11 @@ module.exports = (app) => {
 
 	passport.use(new LocalStrategy(
 		(username, password, done) => {
-			User.findOne({
-				where: {
-					username: username
-				}
-			}).then((user) => {
+			User.findOne({ username: username }).then((user) => {
 				if (!user) {
 					return done(null, false, { message: 'Incorrect credentials.' })
 				}
 
-				let salt = password.substr(0, 5);
 				bcrypt.compare(password, user.password).then((result) => {
 					if (result) {
 						return done(null, user)
