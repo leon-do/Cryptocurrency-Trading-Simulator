@@ -1,9 +1,9 @@
-const data = require('../get/wallet.data.js');
+//const data = require('../get/wallet.data.js');
 const Transaction = require('../../models/Transaction');
-
+const request = require("request")
+const data = require('../get/data.js')  //comment this once wallet.data.js works
 
 module.exports = (app) => {
-
 
     app.post('/api/transfer', (req, res) => {
         let coin1 = req.body.coin1, //from
@@ -40,18 +40,56 @@ module.exports = (app) => {
                 order: [[ 'createdAt', 'DESC' ]]
             }).then((data) => {
 
+
+
+
+
+
+
                 // the math
+               request('http://coincap.io/front', function (error, response, body) {
+
+                var allData = JSON.parse(body)
+                
+                var conversionRatio;
+
+                // find price of BTC and ETC
+                for (var i = 0; i < allData.length; i++){
+                    // if(BTC === BTC)
+                    if (coin1 === allData[i].short){
+                        //add to price to object
+                        var price1 = allData[i].price
+                    }
+
+                    if (coin2 === allData[i].short){
+                        var price2 = allData[i].price
+                    }
+
+                    conversionRatio = price2/price1
+                }//for loop
+      
+        
+                updateBalance(conversionRatio)
+
+            })//$get
+
+
+
+            function updateBalance(conversionRatio){
+
                 for (var key in data.dataValues){
                     if (key == coin1.toLowerCase()){
-                        data.dataValues[key] -= amount;
+                        data.dataValues[key] = data.dataValues[key] - amount;
                     }
                     if (key == coin2.toLowerCase()){
-                        data.dataValues[key] += amount;
+                        data.dataValues[key] = data.dataValues[key] + amount*conversionRatio;
                     }
                 }
 
-                // this is the updated data values
+                // PUT THIS OBJECT TO THE DB
                 console.log(data.dataValues)
+
+            }
 
             });
         }
