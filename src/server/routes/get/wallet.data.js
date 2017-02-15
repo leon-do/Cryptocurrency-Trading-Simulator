@@ -2,6 +2,8 @@
 // =============================================================
 const User = require('../../models/User');
 const Transaction = require('../../models/Transaction');
+const cryptos = require('./data.js')
+
 // //the below is temporary
 // const data = require('./data');
 
@@ -9,7 +11,7 @@ const Transaction = require('../../models/Transaction');
 // =============================================================
 module.exports = (app) => {
 	app.get('/wallet', (req, res) => {
-		res.json(res.body);
+		res.json(cryptos);
 	});
 	
 	app.get('/:username/wallet', (req, res) => {
