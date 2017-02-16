@@ -22,7 +22,8 @@ module.exports = () => {
 	));
 
 	passport.serializeUser((user, done) => {
-		done(null, user.id);
+		let sessionUser = { _id: user._id, username: user.username, wallet: user.wallet};
+		done(null, sessionUser);
 	});
 
 	passport.deserializeUser((id, done) => {

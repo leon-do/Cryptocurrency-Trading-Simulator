@@ -13,6 +13,9 @@ const express = require('express'),
 const app = express();
 const PORT = 8000;
 
+//  Static directory
+app.use(express.static(path.join(__dirname + '/../client')));
+
 passportConfig();
 
 app.use(morgan('req --> :method :url', {
@@ -21,9 +24,6 @@ app.use(morgan('req --> :method :url', {
 app.use(morgan('res <-- :url :status :response-time ms', {
 	immediate: false,
 }));
-
-//  Static directory
-app.use(express.static(path.join(__dirname + '/../client')));
 
 //  Sets up express app to handle data parsing
 app.use(bodyParser.json());
@@ -37,7 +37,8 @@ app.use(session({
 	resave: false,
 	saveUninitialized: true,
 	store: new MongoStore({
-		mongooseConnection: connection
+		mongooseConnection: connection,
+		autoRemove: 'disabled'
 	})
 }));
 app.use(passport.initialize());
