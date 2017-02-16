@@ -3,10 +3,7 @@ const passport = require('passport'),
 	bcrypt = require('bcrypt'),
 	LocalStrategy = require('passport-local');
 
-module.exports = (app) => {
-	app.use(passport.initialize());
-	app.use(passport.session());
-
+module.exports = () => {
 	passport.use(new LocalStrategy(
 		(username, password, done) => {
 			User.findOne({ username: username }).then((user) => {

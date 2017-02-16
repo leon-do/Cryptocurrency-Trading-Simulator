@@ -1,16 +1,20 @@
 // Models
 // =============================================================
-const mongoose = require('mongoose');
 const User = require('../../models/User');
 
 module.exports = (app) => {
 
-	app.get('/wallet/:userId', (req, res) => {
+	app.get('/wallet/:username', (req, res) => {
 
-			User.findById(req.params.userId, (err, user) => {
-					if (err) { res.status(500).end(); console.log(err); }
+		User.findOne({ username: req.params.username }, (err, user) => {
+				if (err) { res.status(500).end(); console.log(err); }
 
+				if (user) {
 					res.json({ "wallet": user.wallet.toJSON() });
-			});
+				}
+				else {
+					res.status(404).json({"error": "Requested user: " + req.params.username + " not found."})
+				}
+		});
 	});
 };

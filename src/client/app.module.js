@@ -35,7 +35,7 @@ angular.module('myApp', ['ngMaterial', 'ngRoute', 'ngMessages'])
 					}),
 					headers: {'Content-Type': 'application/x-www-form-urlencoded'}
 				}).then(function (response) {
-					if (response.status == 200) { $location.url('/home') }
+					if (response.status == 200) { $location.url('/'+response.data.username+'/home') }
 					else { alert('error', response) }
 				});
 			}
@@ -44,15 +44,16 @@ angular.module('myApp', ['ngMaterial', 'ngRoute', 'ngMessages'])
 
 	.component('transferForm', {
 		templateUrl: './home/transfer.template.html',
-		controller: ['$rootScope', '$http', function TransferController($rootScope, $http) {
+		controller: ['$location', '$http', function TransferController($location, $http) {
 			var self = this;
-			var userId = $rootScope.curruserid;
+
+			var uname = $location.path().match(/.*\/(.*)\/home/)[1];
 
 			self.transfer = function (coin1, coin2, amount) {
 				console.log(coin1, coin2, amount);
 				$http({
 					method: 'POST',
-					url: 'http://localhost:8000/'+userId+'/transfer',
+					url: 'http://localhost:8000/'+uname+'/transfer',
 					data: {
 						coin1: coin1,
 						coin2: coin2,
@@ -81,9 +82,12 @@ angular.module('myApp', ['ngMaterial', 'ngRoute', 'ngMessages'])
 		}
 	})
 
-	.controller('HomeController', function ($rootScope, $scope, $http) {
-		// 'user' should be the authenticated user's username for production
-		var url = 'http://localhost:8000/wallet/' + $rootScope.curruserid;
+	.controller('HomeController', function ($location, $scope, $http) {
+
+		var uname = $location.path().match(/.*\/(.*)\/home/)[1];
+
+		var url = 'http://localhost:8000/wallet/' + uname;
+
 		$http.get(url).then(function (response) {
 			console.log(response);
 			$scope.cryptos = response.data.wallet;
@@ -115,11 +119,17 @@ angular.module('myApp', ['ngMaterial', 'ngRoute', 'ngMessages'])
 
 	.run(function ($rootScope) {
 		$rootScope.$on('$routeChangeSuccess', function (currentRoute, previousRoute) {
-			if (previousRoute.$$route.originalPath == "/:userId/:username/home") {
-				console.log('inner', previousRoute);
-				$rootScope.curruserid = previousRoute.params.userId;
-				$rootScope.currusername = previousRoute.params.username;
+			try {
+				if (previousRoute.$$route.originalPath == "/:userId/:username/home") {
+					console.log('inner', previousRoute);
+					$rootScope.curruserid = previousRoute.params.userId;
+					$rootScope.currusername = previousRoute.params.username;
+				}
+				console.log('route', previousRoute);
 			}
-			console.log('route', previousRoute);
+			catch (TypeError) {
+				console.log('current', currentRoute);
+			}
+
 		});
 	});
