@@ -7,7 +7,7 @@ module.exports = (app) => {
 	app.post('/login',
 		passport.authenticate('local'),
 		(req, res) => {
-			console.log(req.session.passport.user);
+			console.log(req.session);
 			res.status(200).json({"userId": req.session.passport.user, "username": req.body.username});
 		});
 
@@ -21,7 +21,7 @@ module.exports = (app) => {
 			user.save((err, newUser) => {
 				if (err) {res.status(403).send(err);}
 				console.log('new user created:\n', newUser);
-				res.redirect('/');
+				res.status(200).json({"userId": newUser._id, "username": newUser.username});
 			});
 		});
 	})

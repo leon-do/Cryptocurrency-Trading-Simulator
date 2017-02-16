@@ -1,8 +1,6 @@
 //  MongoDB/Mongoose
 const mongoose = require('mongoose');
-mongoose.Promise = require('q').Promise;
-mongoose.set('debug', true);
-mongoose.connect('mongodb://localhost:27017/ct_db');
+const connection = require('../utils/connect');
 const Schema = mongoose.Schema;
 
 const walletSchema = new Schema({
@@ -57,7 +55,7 @@ walletSchema.options.toJSON = {
 		delete ret.id;
 		return ret
 	}
-}
+};
 
 userSchema.methods.updateWallet = function (coin1, coin2, amount, conversion, time, cb) {
 	this.wallet[coin1] = this.wallet[coin1] - amount;
@@ -71,6 +69,6 @@ userSchema.methods.updateWallet = function (coin1, coin2, amount, conversion, ti
 	cb();
 };
 
-const User = mongoose.model('User', userSchema);
+const User = connection.model('User', userSchema);
 
 module.exports = User;
