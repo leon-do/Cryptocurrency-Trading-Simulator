@@ -40,14 +40,11 @@ const userSchema = new Schema({
 	password: { type: String, required: true },
 	wallet: { type: walletSchema, default: walletSchema },
 	transactions: [transactionSchema],
-	score: Number,
+	score: { type: Number, default: 100000 },
 	created_at: { type: Date, default: Date.now },
 	updated_at: { type: Date, default: Date.now }
 });
 
-// userSchema.methods.getWallet = function (cb) {
-//
-// };
 walletSchema.options.toJSON = {
 	getters: true,
 	virtuals: true,
@@ -56,29 +53,17 @@ walletSchema.options.toJSON = {
 		delete ret._id;
 		delete ret.updated_at;
 		delete ret.id;
-		let coins = [],
-			values = [];
-		for (var key in ret) {
-			if (ret.hasOwnProperty(key)) {
-				coins.push(key);
-				values.push(ret[key]);
-			}
-		}
-		console.log('ret',ret);
-		ret = { "coins": coins, "values": values };
 		return ret
 	}
 };
 
-userSchema.methods.updateWallet = function (coin1, coin2, amount, conversion, time, cb) {
+userSchema.methods.updateWallet = function (coin1, coin2, amount, conversion, time, score, cb) {
 	this.wallet[coin1] = this.wallet[coin1] - amount;
-	console.log(this.wallet[coin1]);
-	console.log('hello kitty');
 	this.wallet[coin2] = this.wallet[coin2] + conversion;
-	console.log(this.wallet[coin2]);
-	console.log('sonic hedgehog');
 	this.wallet.updated_at = new Date(time);
 	this.updated_at = new Date(time);
+	this.score = score;
+
 	cb();
 };
 

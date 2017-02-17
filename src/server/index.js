@@ -43,7 +43,7 @@ app.use(bodyParser.json({ type: "application/vnd.api+json" }));
 app.use(session({
 	secret: '4564f6s4fdsfdfd',
 	resave: false,
-	saveUninitialized: true,
+	saveUninitialized: false,
 	store: new MongoStore({
 		mongooseConnection: connection,
 		autoRemove: 'disabled'
