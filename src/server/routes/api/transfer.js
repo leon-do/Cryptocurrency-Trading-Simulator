@@ -3,7 +3,7 @@ const request = require("request");
 
 module.exports = (app) => {
 
-	app.post('/api/transfer', (req, res) => {
+	app.post('/api/transfer/', (req, res) => {
 
 		let coin1 = req.query.coin1, //from
 			coin2 = req.query.coin2, // to
