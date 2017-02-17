@@ -6,7 +6,7 @@ module.exports = (app) => {
 
 	app.post('/login', passport.authenticate('local'), (req, res) => {
 			console.log(req.session);
-			res.status(200).json({"userId": req.session.passport.user, "username": req.body.username});
+			res.status(200).end();
 	});
 
 	app.post('/new', (req, res) => {

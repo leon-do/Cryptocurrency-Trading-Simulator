@@ -3,14 +3,14 @@ const request = require("request");
 
 module.exports = (app) => {
 
-    app.post('/:username/transfer', (req, res) => {
+    app.post('/transfer', (req, res) => {
         let coin1 = req.body.coin1, //from
             coin2 = req.body.coin2, // to
             amount = req.body.amount;
 
-        console.log('Posted to http://localhost:8000/transfer\n>', coin1, coin2, amount);
+        console.log('Posted to /transfer\n>', coin1, coin2, amount);
 
-        User.findOne({ username: req.params.username }, (err, user) => {
+        User.findById(req.user._id, (err, user) => {
 	        if (err) { res.status(500).end(); console.log(err); }
 
 	        // check balance

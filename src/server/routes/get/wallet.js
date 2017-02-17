@@ -4,7 +4,7 @@ const User = require('../../models/User');
 
 module.exports = (app) => {
 
-	app.get('/wallet/:username', (req, res) => {
+	app.get('/wallet', (req, res) => {
 		console.log(req.session);
 
 

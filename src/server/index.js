@@ -25,6 +25,14 @@ app.use(morgan('res <-- :url :status :response-time ms', {
 	immediate: false,
 }));
 
+app.use(function(req, res, next) {
+	res.header("Access-Control-Allow-Origin", "*");
+	res.header('Access-Control-Allow-Methods', 'PUT, GET, POST, DELETE, OPTIONS');
+	res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization, Access-Control-Allow-Credentials");
+	res.header("Access-Control-Allow-Credentials", "true");
+	next();
+});
+
 //  Sets up express app to handle data parsing
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -49,10 +57,13 @@ app.use(passport.session());
 require('./routes/get/home')(app);
 // Wallet API
 
-require('./routes/get/wallet.data')(app);
+require('./routes/get/wallet')(app);
 require('./routes/post/transfer')(app);
 // // Login API
 require('./routes/post/login')(app);
+//  Bot API
+require('./routes/api/wallet')(app);
+require('./routes/api/login')(app);
 
 //  Starting the express app
 app.listen(PORT, () => {
