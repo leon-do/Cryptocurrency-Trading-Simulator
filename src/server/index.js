@@ -11,7 +11,7 @@ const express = require('express'),
 
 //  Setting up the express app
 const app = express();
-const PORT = 8000;
+const PORT = 80;
 
 //  Static directory
 app.use(express.static(path.join(__dirname + '/../client')));
