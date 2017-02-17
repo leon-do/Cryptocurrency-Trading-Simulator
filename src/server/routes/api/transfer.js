@@ -1,9 +1,10 @@
 const User = require('../../models/User');
 const request = require("request");
+const passport = require('passport');
 
 module.exports = (app) => {
 
-	app.post('/api/transfer/', (req, res) => {
+	app.post('/api/transfer/', passport.authenticate('local'), (req, res) => {
 
 		let coin1 = req.query.coin1, //from
 			coin2 = req.query.coin2, // to

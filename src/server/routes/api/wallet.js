@@ -1,8 +1,9 @@
 const User = require('../../models/User');
+const passport = require('passport');
 
 module.exports = (app) => {
 
-	app.get('/api/wallet/', (req, res) => {
+	app.get('/api/wallet/', passport.authenticate('local'), (req, res) => {
 		console.log(req.user);
 
 		User.findById(req.user._id, (err, user) => {

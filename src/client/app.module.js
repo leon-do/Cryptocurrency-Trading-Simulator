@@ -1,4 +1,4 @@
-angular.module('myApp', ['ngMaterial', 'ngRoute', 'ngMessages'])
+angular.module('myApp', ['ngMaterial', 'ngRoute', 'ngMessages', 'chart.js'])
 
 	.controller('LoginController', function ($location, $scope, $http, $httpParamSerializerJQLike) {
 		var self = $scope;
