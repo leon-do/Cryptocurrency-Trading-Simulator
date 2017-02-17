@@ -45,6 +45,9 @@ const userSchema = new Schema({
 	updated_at: { type: Date, default: Date.now }
 });
 
+// userSchema.methods.getWallet = function (cb) {
+//
+// };
 walletSchema.options.toJSON = {
 	getters: true,
 	virtuals: true,
@@ -53,6 +56,16 @@ walletSchema.options.toJSON = {
 		delete ret._id;
 		delete ret.updated_at;
 		delete ret.id;
+		let coins = [],
+			values = [];
+		for (var key in ret) {
+			if (ret.hasOwnProperty(key)) {
+				coins.push(key);
+				values.push(ret[key]);
+			}
+		}
+		console.log('ret',ret);
+		ret = { "coins": coins, "values": values };
 		return ret
 	}
 };

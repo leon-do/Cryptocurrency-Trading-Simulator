@@ -84,13 +84,16 @@ angular.module('myApp', ['ngMaterial', 'ngRoute', 'ngMessages', 'chart.js'])
 
 		$http.get('/wallet').then(function (response) {
 			console.log(response);
+			console.log(response.data.wallet);
 			$scope.cryptos = response.data.wallet;
 		}, function (error) {
 			console.log(error);
 		});
 	})
 
-	.config(function ($routeProvider) {
+	.config(function ($routeProvider, ChartJsProvider) {
+		ChartJsProvider.setOptions({ colors: ['#803690', '#00ADF9', '#DCDCDC', '#46BFBD', '#FDB45C', '#949FB1', '#4D5360'] });
+
 		$routeProvider
 			.when('/login', {
 				templateUrl: './login/login.template.html',

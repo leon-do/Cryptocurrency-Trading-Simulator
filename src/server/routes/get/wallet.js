@@ -12,6 +12,7 @@ module.exports = (app) => {
 			if (err) { res.status(500).end(); console.log(err); }
 
 			if (user) {
+				console.log(user.wallet.toJSON);
 				res.json({ "wallet": user.wallet.toJSON() });
 			}
 			else {
