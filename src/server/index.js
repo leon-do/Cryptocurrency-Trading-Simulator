@@ -64,6 +64,7 @@ require('./routes/post/login')(app);
 //  Bot API
 require('./routes/api/wallet')(app);
 require('./routes/api/login')(app);
+require('./routes/api/transfer')(app);
 
 //  Starting the express app
 app.listen(PORT, () => {
