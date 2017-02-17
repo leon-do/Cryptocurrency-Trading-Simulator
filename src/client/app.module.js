@@ -1,4 +1,12 @@
-angular.module('myApp', ['chart.js', 'ngMaterial', 'ngRoute', 'ngMessages'])
+angular.module('myApp', ['chart.js', 'ngMaterial', 'ngRoute', 'ngMessages', 'btford.socket-io'])
+
+	.factory('mySocket', function (socketFactory) {
+		var coinSocket = io.connect('http://socket.coincap.io');
+		mySocket = socketFactory({
+			ioSocket: coinSocket
+		});
+		return mySocket;
+	})
 
 	.controller('LoginController', function ($location, $scope, $http, $httpParamSerializerJQLike) {
 		var self = $scope;
@@ -80,7 +88,25 @@ angular.module('myApp', ['chart.js', 'ngMaterial', 'ngRoute', 'ngMessages'])
 		}
 	})
 
-
+	.component('coinTable', {
+		templateUrl: './home/table.template.html',
+		controller: ['$scope', 'mySocket', function CoinTableController($scope, mySocket) {
+			var self = this;
+			self.$onChanges = function (changesObj) {
+				if (changesObj.coins) {
+					var coins = changesObj.coins.currentValue || changesObj.coins.previousValue;
+					console.log(coins);
+					mySocket.on('trades', function (tradeMsg) {
+						console.log(tradeMsg);
+						// CHASE
+					});
+				}
+			};
+		}],
+		bindings: {
+			coins: '<'
+		}
+	})
 
 	.controller('HomeController', function ($filter, $rootScope, $scope, $http) {
 
