@@ -3,18 +3,18 @@ const passport = require('passport');
 
 module.exports = (app) => {
 
-	app.get('/home',
-		passport.authenticate('local'),
-		(req, res) => {
-			res.status(200);
-		}
-	);
-
 	app.get('/',
-		passport.authenticate('local'),
+		passport.authenticate('local', {failureRedirect: '/login/new'}),
 		(req, res) => {
 			// success
 			res.sendFile(path.join(__dirname + '/../../../client/index.html'));
+		}
+	);
+
+	app.get('/home',
+		passport.authenticate('local', {failureRedirect: '/login'}),
+		(req, res) => {
+			res.status(200);
 		}
 	);
 };

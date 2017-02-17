@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html ng-app="myApp">
 	<head>
 		<!-- jQuery -->
 		<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
@@ -10,6 +10,8 @@
 
 		<!-- Angular -->
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.5/angular.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
+		<script src="https://cdn.jsdelivr.net/angular.chartjs/latest/angular-chart.min.js"></script>
 		<!-- Angular ngRoute -->
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.5/angular-route.min.js"></script>
 
@@ -24,10 +26,6 @@
 		<!-- Materialize Compiled and minified CSS -->
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.0/css/materialize.min.css">
 
-		<!-- Angular-Chart -->
-		<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
-		<script src="modules/angular-chart.js/angular-chart.js"></script>
-
 		<!-- cryptoApp code -->
 		<script src='app.module.js'></script>
 
@@ -38,7 +36,7 @@
 
 
 	</head>
-	<body ng-app="myApp">
+	<body>
 		<nav>
 			<div class="nav-wrapper pink darken-4">
 				<div class="container">
@@ -46,7 +44,8 @@
 					<ul id="nav-mobile" class="right hide-on-med-and-down">
 						<li><a class="modal-trigger" href="#infoModal">About</a></li>
 						<li><a class="modal-trigger" href="#insModal">Instructions</a></li>
-						<li><a href="/#/login">Log In</a></li>
+						<li><a href="/#/login">Login</a></li><li>|</li>
+						<li><a href="/#/login/new">Create User</a></li>
 					</ul>
 				</div>
 			</div>
@@ -75,9 +74,14 @@
 			</div>
 		</div>
 
-		<div class="container">
+		<div class="container" layout="column">
 
-
+			<div ng-show="loc" style="margin: 10px 0 40px 0;">
+				<canvas id="doughnut" class="chart chart-doughnut"
+				        chart-data="values" chart-labels="keys"
+				        chart-colors="colors" chart-options="options">
+				</canvas>
+			</div>
 
 			<ng-view ng-cloak></ng-view>
 
