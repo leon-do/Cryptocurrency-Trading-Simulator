@@ -8,6 +8,8 @@ module.exports = (app) => {
             coin2 = req.body.coin2, // to
             amount = req.body.amount;
 
+	    if (coin1 == coin2) {return res.status(403).end()}
+
         console.log('Posted to /transfer\n>', coin1, coin2, amount);
 
         User.findById(req.user._id, (err, user) => {

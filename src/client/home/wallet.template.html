@@ -1,0 +1,7 @@
+<div style="margin: 0 auto 50px auto;" layout-align="center center" layout-wrap layout-padding layout="row">
+	<div layout-align="center center" flex-order="{{$index}}" flex="20" class="wallet-data" layout="column" ng-repeat="(coin, balance) in $ctrl.coins" ng-if="balance > 0">
+		<div>{{coin}} <!-- percentage --></div>
+		<div style="width: 80%;"><hr flex="initial" ng-style="{background: colors[$index], border: 0, 'border-radius': '10px', height: '3px', width: '100%'}"></div>
+		<div>{{balance | number : 4}}</div>
+	</div>
+</div>

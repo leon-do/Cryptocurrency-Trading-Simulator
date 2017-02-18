@@ -38,7 +38,12 @@
 
 		<title>Crypto Currency Trader</title>
 
-
+		<style>
+			.wallet-data {
+				text-align: center;
+				font-size-adjust: ;
+			}
+		</style>
 	</head>
 	<body>
 		<nav>
@@ -80,7 +85,7 @@
 
 		<div class="container" layout="column">
 
-			<div ng-show="loc" style="margin: 10px 0 40px 0;">
+			<div ng-show="loc" style="margin: 10px auto 40px auto;">
 				<canvas id="doughnut" class="chart chart-doughnut"
 				        chart-data="values" chart-labels="keys"
 				        chart-colors="colors" chart-options="options">
