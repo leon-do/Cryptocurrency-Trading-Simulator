@@ -88,7 +88,8 @@ angular.module('myApp', ['chart.js', 'ngMaterial', 'ngRoute', 'ngMessages', 'btf
 			$scope.colors = $rootScope.colors;
 		}],
 		bindings: {
-			coins: '<'
+			coins: '<',
+			score: '<'
 		}
 	})
 
@@ -154,7 +155,7 @@ angular.module('myApp', ['chart.js', 'ngMaterial', 'ngRoute', 'ngMessages', 'btf
 				ctx.font = fontSize + "em Roboto";
 				ctx.textBaseline = "middle";
 
-				var text = $rootScope.score,
+				var text = $rootScope.total,
 					textX = Math.round((width - ctx.measureText(text).width) / 2),
 					textY = (height / 2) - 10;
 
@@ -192,16 +193,25 @@ angular.module('myApp', ['chart.js', 'ngMaterial', 'ngRoute', 'ngMessages', 'btf
 		];
 
 		$rootScope.$on('trade', function (event, args) {
+			$rootScope.score = args.message.score;
+			console.log('pre-score:', $rootScope.score);
 			var keys = [],
 				values = [];
 			for (var key in args.message.wallet) {
 				keys.push(key);
 				values.push(args.message.wallet[key]);
 			}
+
+			for (var k in $rootScope.score.all) {
+				var percentage = $rootScope.score.all[k].valueUSD / $rootScope.score.total;
+				$rootScope.score.all[k].percentOfTotalScore = $filter('number')((percentage * 100), 2).toString() + '%';
+			}
+			console.log('post-score:', $rootScope.score);
 			$rootScope.keys = keys;
 			$rootScope.values = values;
-			$rootScope.score = $filter('currency')(args.message.score);
+			$rootScope.total = $filter('currency')(args.message.score.total);
 			$scope.cryptos = args.message.wallet;
+			$scope.score = $rootScope.score;
 			if ($rootScope.c) { $rootScope.c.update() }
 		});
 
