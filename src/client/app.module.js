@@ -240,6 +240,10 @@ angular.module('myApp', ['chart.js', 'ngMaterial', 'ngRoute', 'ngMessages', 'btf
 				templateUrl: './home/home.template.html',
 				controller: 'HomeController'
 			})
+            .when('/splash', {
+                templateUrl: './home/splash.template.html',
+                controller: 'HomeController'
+            })
 			.otherwise('/')
 	})
 
