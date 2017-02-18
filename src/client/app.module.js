@@ -101,9 +101,33 @@ angular.module('myApp', ['chart.js', 'ngMaterial', 'ngRoute', 'ngMessages', 'btf
 				if (changesObj.coins) {
 					var coins = changesObj.coins.currentValue || changesObj.coins.previousValue;
 					console.log(coins);
+                    var coinArray = {
+                        BTC: {col1 : "BTC",  col2 : "---", col3 : "---", col4 : "---", col5 : "---", col6 : "---"},
+                        ETH: {col1 : "ETH",  col2 : "---", col3 : "---", col4 : "---", col5 : "---", col6 : "---"},
+                        XRP: {col1 : "XRP",  col2 : "---", col3 : "---", col4 : "---", col5 : "---", col6 : "---"},
+                        LTC: {col1 : "LTC",  col2 : "---", col3 : "---", col4 : "---", col5 : "---", col6 : "---"},
+                        XMR: {col1 : "XMR",  col2 : "---", col3 : "---", col4 : "---", col5 : "---", col6 : "---"},
+                        ETC: {col1 : "ETC",  col2 : "---", col3 : "---", col4 : "---", col5 : "---", col6 : "---"},
+                        MAID: {col1 : "MAID", col2 : "---", col3 : "---", col4 : "---", col5 : "---", col6 : "---"},
+                        DASH: {col1 : "DASH", col2 : "---", col3 : "---", col4 : "---", col5 : "---", col6 : "---"},
+                        DOGE: {col1 : "DOGE", col2 : "---", col3 : "---", col4 : "---", col5 : "---", col6 : "---"},
+                        ZEC: {col1 : "ZEC",  col2 : "---", col3 : "---", col4 : "---", col5 : "---", col6 : "---"},
+                        LSK: {col1 : "LSK",  col2 : "---", col3 : "---", col4 : "---", col5 : "---", col6 : "---"}
+                    };
+
+
 					mySocket.on('trades', function (tradeMsg) {
 						console.log(tradeMsg);
-						// CHASE
+
+						coinArray[tradeMsg.message.coin].col2 = tradeMsg.message.msg.perc;
+						coinArray[tradeMsg.message.coin].col3 = tradeMsg.message.msg.price;
+						coinArray[tradeMsg.message.coin].col4 = tradeMsg.message.msg.mktcap;
+						coinArray[tradeMsg.message.coin].col5 = tradeMsg.message.msg.volume;
+						coinArray[tradeMsg.message.coin].col6 = tradeMsg.message.msg.supply;
+
+						$scope.coinTable = coinArray
+
+
 					});
 				}
 			};
@@ -114,14 +138,6 @@ angular.module('myApp', ['chart.js', 'ngMaterial', 'ngRoute', 'ngMessages', 'btf
 	})
 
 	.controller('HomeController', function ($filter, $rootScope, $scope, $http) {
-
-		var self = this;
-		self.showUSD = false;
-
-		self.toggle = function () {
-			self.showUSD = !self.showUSD;
-			console.log(self.showUSD);
-		};
 
 		$rootScope.$on('chart-create', function (event, chart) {
 			console.log(chart);
@@ -234,6 +250,10 @@ angular.module('myApp', ['chart.js', 'ngMaterial', 'ngRoute', 'ngMessages', 'btf
 				templateUrl: './home/home.template.html',
 				controller: 'HomeController'
 			})
+            .when('/splash', {
+                templateUrl: './home/splash.template.html',
+                controller: 'HomeController'
+            })
 			.otherwise('/')
 	})
 
