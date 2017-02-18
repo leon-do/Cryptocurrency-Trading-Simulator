@@ -43,6 +43,15 @@
 				text-align: center;
 				font-size-adjust: ;
 			}
+			.noselect {
+				cursor: pointer;
+				-webkit-touch-callout: none; /* iOS Safari */
+				-webkit-user-select: none; /* Safari */
+				-moz-user-select: none; /* Firefox */
+				-ms-user-select: none; /* Internet Explorer/Edge */
+				user-select: none; /* Non-prefixed version, currently
+                                  supported by Chrome and Opera */
+			}
 		</style>
 	</head>
 	<body>
@@ -51,37 +60,14 @@
 				<div class="container">
 					<a href="/#/" class="brand-logo">Crypto Currency Trader</a>
 					<ul id="nav-mobile" class="right hide-on-med-and-down">
-						<li><a class="modal-trigger" href="#infoModal">About</a></li>
-						<li><a class="modal-trigger" href="#insModal">Instructions</a></li>
 						<li><a href="/#/login">Login</a></li><li>|</li>
-						<li><a href="/#/login/new">Create User</a></li>
+						<li><a href="/#/login/new">Create User</a></li><li>|</li>
+						<li><a href="/#/logout">Logout</a></li>
 					</ul>
 				</div>
 			</div>
 		</nav>
 		<br>
-
-		<!-- About Modal Structure -->
-		<div id="infoModal" class="modal">
-			<div class="modal-content">
-				<h4>Crypto Currency Trader</h4>
-				<p>
-					Welcome to Crypto Currency Trading Simulator. The purpose of this simulator is to test your trading strategies in a simulated environment before you put any real money on the line.
-
-					Please create a username and a password so that you can store your progress or peril. This isn’t gmail, so remember your fucking username and password, there will be no method of retrieval. High scores are calculated by converting the present net value of your entire portfolio into USD. High scores will be visible when you log out.
-				</p>
-			</div>
-		</div>
-
-		<!-- Directions Modal Structure -->
-		<div id="insModal" class="modal">
-			<div class="modal-content">
-				<h4>Crypto Currency Trader</h4>
-				<p>
-					Welcome to your Crypto Currency Trader! Once you register, we'll go ahead and get you started out with $100,000 that you can choose to allocate as you wish. To buy a coin, simple click the ‘buy’ button next to the coin name. You will then be prompted to choose which currency you wish to use to make the purchase, and how much you want to buy. Once you click the ‘confirm’ button, your wallet will complete the transaction at real time market rates.
-				</p>
-			</div>
-		</div>
 
 		<div class="container" layout="column">
 

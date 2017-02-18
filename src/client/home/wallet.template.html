@@ -1,8 +1,8 @@
 <div style="margin: 0 auto 10px auto;" layout-align="center center" layout-wrap layout-padding layout="row">
-	<div ng-init="test$index = false" layout-align="center center" flex-order="$index" flex="20" class="wallet-data" layout="column" ng-repeat="(coin, balance) in $ctrl.coins" ng-if="balance > 0">
+	<div ng-init="test$index = true" layout-align="center center" flex-order="$index" flex="20" class="wallet-data" layout="column" ng-repeat="(coin, balance) in $ctrl.coins" ng-if="balance > 0">
 		<div>{{coin}} {{$ctrl.score.all[coin].percentOfTotalScore}}</div>
 		<div style="width: 80%;"><hr flex="initial" ng-style="{background: colors[$index], border: 0, 'border-radius': '10px', height: '3px', width: '100%'}"></div>
-		<div ng-click="test$index = !test$index" ng-if="coin != 'USD'" ng-hide="test$index">{{balance | number : 2}}</div>
-		<div ng-click="test$index = !test$index" ng-show="test$index || coin == 'USD'">{{$ctrl.score.all[coin].valueUSD | currency}}</div>
+		<div class="noselect" ng-click="test$index = !test$index" ng-hide="test$index || coin == 'USD'">{{balance | number : 2}}</div>
+		<div class="noselect" ng-click="test$index = !test$index" ng-show="test$index || coin == 'USD'">{{$ctrl.score.all[coin].valueUSD | currency}}</div>
 	</div>
 </div>
