@@ -35,15 +35,31 @@ const transactionSchema = new Schema({
 	updated_at: { type: Date, index: true, default: Date.now }
 });
 
+const scoreSchema = new Schema({
+	total: { type: Number, default: 100000 },
+	all: { type: Schema.Types.Mixed, default: { USD: { amount: 100000, valueUSD: 100000 }}}
+}, {timestamps: false});
+
 const userSchema = new Schema({
 	username: { type: String, required: true, unique: true, trim: true },
 	password: { type: String, required: true },
 	wallet: { type: walletSchema, default: walletSchema },
 	transactions: [transactionSchema],
-	score: { type: Number, default: 100000 },
+	score: { type: scoreSchema, default: scoreSchema },
 	created_at: { type: Date, default: Date.now },
 	updated_at: { type: Date, default: Date.now }
 });
+
+scoreSchema.options.toJSON = {
+	getters: true,
+	virtuals: true,
+	minimize: false,
+	transform: function (doc, ret, options) {
+		delete ret._id;
+		delete ret.id;
+		return ret
+	}
+};
 
 walletSchema.options.toJSON = {
 	getters: true,
@@ -57,13 +73,16 @@ walletSchema.options.toJSON = {
 	}
 };
 
-userSchema.methods.updateWallet = function (coin1, coin2, amount, conversion, time, score, cb) {
+userSchema.methods.updateWallet = function (coin1, coin2, amount, convertedAmount, time, score, cb) {
 	this.wallet[coin1] = this.wallet[coin1] - amount;
-	this.wallet[coin2] = this.wallet[coin2] + conversion;
+	this.wallet[coin2] = this.wallet[coin2] + convertedAmount;
 	this.wallet.updated_at = new Date(time);
 	this.updated_at = new Date(time);
 	this.score = score;
-
+	this.markModified('score');
+	this.markModified('wallet');
+	this.markModified('transactions');
+	this.markModified('updated_at');
 	cb();
 };
 

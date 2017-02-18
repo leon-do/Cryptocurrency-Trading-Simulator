@@ -20,25 +20,28 @@ module.exports = (app) => {
 		        res.status(403).json({ "reason": "Forbidden: Insufficient Funds"});
             }
             else {
+		        user.transactions.unshift(user.wallet);
+
 		        request('http://coincap.io/front', function (error, response, body) {
 		        	if (error) throw error;
                     let allData = JSON.parse(body);
 
-                    let conversion,
+                    let convertedAmount,
                         price1,
                         price2,
 	                    time;
 
-			        let allCoins = { USD: 1 },
+			        let allCoinsValue = { USD: 1 },
 				        wallet = user.wallet.toJSON(),
-				        score = 0;
+				        total = 0,
+				        score = { all: {}};
 
 			        for (let i = 0; i < allData.length; i++) {
 			        	if (coin1 == 'USD') {price1 = 1;}
 			        	if (coin2 == 'USD') {price2 = 1;}
 
 			        	if (allData[i].short in wallet) {
-			        		allCoins[allData[i].short] = allData[i].price;
+			        		allCoinsValue[allData[i].short] = allData[i].price;
 				        }
 
                         if (!price1 && coin1 === allData[i].short) {
@@ -50,26 +53,39 @@ module.exports = (app) => {
 	                        if (!time) { time = allData[i].time; }
                         }
 
-                        if ((price1 && price2) && (allCoins.length == (wallet.length - 1))) { break }
+                        if ((price1 && price2) && (allCoinsValue.length == (wallet.length - 1))) { break }
 			        }
 
-			        //  allCoins[coin] == coin value in USD
+			        convertedAmount = (price1 * amount) / price2;
+
+			        //  allCoinsValue[coin] == coin value in USD
 			        for (let c in wallet) {
-			        	let quant = wallet[c];
-			        	score += quant * allCoins[c];
+			        	let quant;
+
+			        	if (c == coin1) { quant = wallet[c] - amount }
+			        	else if (c == coin2) { quant = wallet[c] + convertedAmount }
+			        	else { quant = wallet[c] }
+
+			        	let valueUSD = quant * allCoinsValue[c];
+			        	total += valueUSD;
+			        	allCoinsValue[c] = valueUSD;
+			        	score.all[c] = {
+			        		amount: quant,
+					        valueUSD: allCoinsValue[c]
+				        }
 			        }
+
+			        score.total = total;
+			        console.log(allCoinsValue);
 			        console.log('score:',score);
 
-			        conversion = (price1 * amount) / price2;
 
-			        user.transactions.unshift(user.wallet);
-
-			        user.updateWallet(coin1, coin2, amount, conversion, time, score, () => {
+			        user.updateWallet(coin1, coin2, amount, convertedAmount, time, score, () => {
 				        console.log('thisthisthis');
 				        user.save((err, newUser) => {
 					        if (err) {console.log(err);}
-					        console.log('user saved');
-					        res.json({ "wallet": newUser.wallet.toJSON(), "score": newUser.score });
+					        console.log('user saved:', newUser);
+					        res.json({ "wallet": newUser.wallet.toJSON(), "score": newUser.score.toJSON() });
 				        });
 			        });
 		        });
