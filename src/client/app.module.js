@@ -83,6 +83,10 @@ angular.module('myApp', ['chart.js', 'ngMaterial', 'ngRoute', 'ngMessages', 'btf
 
 	.component('userWallet', {
 		templateUrl: './home/wallet.template.html',
+		controller: ['$rootScope', '$scope', function WalletController($rootScope, $scope) {
+			var self = this;
+			$scope.colors = $rootScope.colors;
+		}],
 		bindings: {
 			coins: '<'
 		}
@@ -128,10 +132,19 @@ angular.module('myApp', ['chart.js', 'ngMaterial', 'ngRoute', 'ngMessages', 'btf
 
 				var text = $rootScope.score,
 					textX = Math.round((width - ctx.measureText(text).width) / 2),
-					textY = height / 2;
+					textY = (height / 2) - 10;
+
+
 
 				ctx.fillText(text, textX, textY);
 				ctx.save();
+				ctx.font = '300 20px Roboto';
+				var t2 = 'Total Value',
+					t2X = Math.round((width - ctx.measureText(text).width) / 2),
+					t2Y = textY + 30;
+				ctx.fillText(t2, t2X, t2Y);
+				ctx.save();
+
 			}
 		});
 

@@ -10,6 +10,8 @@ module.exports = (app) => {
 			coin2 = req.query.coin2, // to
 			amount = req.query.amount;
 
+		if (coin1 == coin2) {return res.status(403).end()}
+
 		console.log('Posted to /api/transfer\n>', coin1, coin2, amount);
 
 		User.findById(req.user._id, (err, user) => {
