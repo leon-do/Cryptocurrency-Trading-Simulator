@@ -114,21 +114,19 @@ angular.module('myApp', ['chart.js', 'ngMaterial', 'ngRoute', 'ngMessages', 'btf
                         LSK: {col1 : "LSK",  col2 : "---", col3 : "---", col4 : "---", col5 : "---", col6 : "---"}
                     };
 
+
 					mySocket.on('trades', function (tradeMsg) {
 						console.log(tradeMsg);
-                        mySocket.on('trades', function (tradeMsg) {
-                            console.log(tradeMsg);
 
-                            coinArray[tradeMsg.message.coin].col2 = tradeMsg.message.msg.perc;
-                            coinArray[tradeMsg.message.coin].col3 = tradeMsg.message.msg.price;
-                            coinArray[tradeMsg.message.coin].col4 = tradeMsg.message.msg.mktcap;
-                            coinArray[tradeMsg.message.coin].col5 = tradeMsg.message.msg.volume;
-                            coinArray[tradeMsg.message.coin].col6 = tradeMsg.message.msg.supply;
+						coinArray[tradeMsg.message.coin].col2 = tradeMsg.message.msg.perc;
+						coinArray[tradeMsg.message.coin].col3 = tradeMsg.message.msg.price;
+						coinArray[tradeMsg.message.coin].col4 = tradeMsg.message.msg.mktcap;
+						coinArray[tradeMsg.message.coin].col5 = tradeMsg.message.msg.volume;
+						coinArray[tradeMsg.message.coin].col6 = tradeMsg.message.msg.supply;
 
-                            $scope.coinTable = coinArray
+						$scope.coinTable = coinArray
 
 
-                        });
 					});
 				}
 			};
