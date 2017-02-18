@@ -177,7 +177,8 @@ angular.module('myApp', ['chart.js', 'ngMaterial', 'ngRoute', 'ngMessages', 'btf
 			cutoutPercentage: 70
 		};
 
-		$rootScope.colors = [
+		$rootScope.colors = [];
+		/*var colors = [
 			'#9c27b0',
 			'#e91e63',
 			'#f44336',
@@ -190,7 +191,23 @@ angular.module('myApp', ['chart.js', 'ngMaterial', 'ngRoute', 'ngMessages', 'btf
 			'#03a9f4',
 			'#2196f3',
 			'#4caf50',
-		];
+		];*/
+
+		var colors = {
+			LSK: '#9c27b0',
+			ZEC: '#e91e63',
+			DOGE: '#f44336',
+			MAID: '#ff5722',
+			DASH: '#ff9800',
+			ETC: '#ffc107',
+			XMR: '#ffeb3b',
+			LTC: '#cddc39',
+			XRP: '#009688',
+			ETH: '#03a9f4',
+			BTC: '#2196f3',
+			USD: '#4caf50',
+		};
+
 
 		$rootScope.$on('trade', function (event, args) {
 			$rootScope.score = args.message.score;
@@ -198,8 +215,11 @@ angular.module('myApp', ['chart.js', 'ngMaterial', 'ngRoute', 'ngMessages', 'btf
 			var keys = [],
 				values = [];
 			for (var key in args.message.wallet) {
-				keys.push(key);
-				values.push(args.message.wallet[key]);
+				if (key in $rootScope.score.all) {
+					keys.push(key);
+					values.push($rootScope.score.all[key].valueUSD);
+					$rootScope.colors.push(colors[key]);
+				}
 			}
 
 			for (var k in $rootScope.score.all) {
@@ -236,7 +256,7 @@ angular.module('myApp', ['chart.js', 'ngMaterial', 'ngRoute', 'ngMessages', 'btf
 		});
 		$routeProvider
 			.when('/', {
-				redirectTo: '/home'
+				redirectTo: '/splash'
 			})
 			.when('/login', {
 				templateUrl: './login/login.template.html',
@@ -251,8 +271,7 @@ angular.module('myApp', ['chart.js', 'ngMaterial', 'ngRoute', 'ngMessages', 'btf
 				controller: 'HomeController'
 			})
             .when('/splash', {
-                templateUrl: './home/splash.template.html',
-                controller: 'HomeController'
+                templateUrl: './home/splash.template.html'
             })
 			.otherwise('/')
 	})

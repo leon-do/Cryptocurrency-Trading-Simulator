@@ -7,7 +7,7 @@ module.exports = (app) => {
 	app.get('/wallet', (req, res) => {
 		console.log(req.session);
 
-
+		if (!req.user) {return res.redirect('/#/splash')}
 		User.findById(req.user._id, (err, user) => {
 			if (err) { res.status(500).end(); console.log(err); }
 
