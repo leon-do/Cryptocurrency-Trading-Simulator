@@ -52,6 +52,43 @@
 				user-select: none; /* Non-prefixed version, currently
                                   supported by Chrome and Opera */
 			}
+			.change {
+				background-color: #ff0000;
+			}
+			.change-add,.change-remove {
+				background-color: white;
+				transition: all 1s;
+				-webkit-transition: all 1s ease-in-out;
+			}
+			.change-add-active {
+				background-color: #ff0000;
+			}
+			.change-remove {
+				background-color: #ff0000;
+
+			}
+			.change-remove-active {
+				background-color: white;
+			}
+
+			.change-up {
+				background-color: #00ff00;
+			}
+			.change-up-add,.change-up-remove {
+				background-color: white;
+				transition: all 1s;
+				-webkit-transition: all 1s ease-in-out;
+			}
+			.change-up-add-active {
+				background-color: #00ff00;
+			}
+			.change-up-remove {
+				background-color: #00ff00;
+
+			}
+			.change-up-remove-active {
+				background-color: white;
+			}
 		</style>
 	</head>
 	<body>
@@ -60,6 +97,7 @@
 				<div class="container">
 					<a href="/#/" class="brand-logo">Crypto Currency Trader</a>
 					<ul id="nav-mobile" class="right hide-on-med-and-down">
+						<li><a href="/#/home">Home</a></li><li>|</li>
 						<li><a href="/#/login">Login</a></li><li>|</li>
 						<li><a href="/#/login/new">Create User</a></li><li>|</li>
 						<li><a href="/#/logout">Logout</a></li>

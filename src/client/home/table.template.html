@@ -1,26 +1,24 @@
 <h1 class="center">Live Market</h1>
 
-<table>
+<table style="margin-bottom: 2vh;">
     <thead>
     <tr>
         <th class="center">Name</th>
-        <th class="center">Percentage Change</th>
-        <th class="center">Price</th>
         <th class="center">Market Cap</th>
-        <th class="center">Volume</th>
+        <th class="center">Price</th>
         <th class="center">Supply</th>
+        <th class="center">24 Hour Volume</th>
+        <th class="center">%24hr</th>
     </tr>
     </thead>
     <tbody>
-    <tr ng-repeat="coin in coinTable">
-        <td class='center'> {{coin.col1}}</td>
-        <td class='center'> {{coin.col2}}</td>
-        <td class='center'> {{coin.col3}}</td>
-        <td class='center'> {{coin.col4}}</td>
-        <td class='center'> {{coin.col5}}</td>
-        <td class='center'> {{coin.col6}}</td>
+    <tr animate-on-change="coin.price" ng-repeat="coin in rowData">
+        <td class='center'>{{coin.name}}</td>
+        <td class='center'>{{coin.mktcap}}</td>
+        <td class='center'>{{coin.price}}</td>
+        <td class='center'>{{coin.supply}}</td>
+        <td class='center'>{{coin.volume}}</td>
+        <td class='center'>{{coin.percent}}</td>
     </tr>
-
     </tbody>
-
 </table>

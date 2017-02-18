@@ -1,4 +1,4 @@
-angular.module('myApp', ['chart.js', 'ngMaterial', 'ngRoute', 'ngMessages', 'btford.socket-io'])
+angular.module('myApp', ['chart.js', 'ngMaterial', 'ngAnimate', 'ngRoute', 'ngMessages', 'btford.socket-io'])
 
 	.factory('mySocket', function (socketFactory) {
 		var coinSocket = io.connect('http://socket.coincap.io');
@@ -93,44 +93,56 @@ angular.module('myApp', ['chart.js', 'ngMaterial', 'ngRoute', 'ngMessages', 'btf
 		}
 	})
 
-	.component('coinTable', {
-		templateUrl: './home/table.template.html',
-		controller: ['$scope', 'mySocket', function CoinTableController($scope, mySocket) {
-			var self = this;
-			self.$onChanges = function (changesObj) {
-				if (changesObj.coins) {
-					var coins = changesObj.coins.currentValue || changesObj.coins.previousValue;
-					console.log(coins);
-                    var coinArray = {
-                        BTC: {col1 : "BTC",  col2 : "---", col3 : "---", col4 : "---", col5 : "---", col6 : "---"},
-                        ETH: {col1 : "ETH",  col2 : "---", col3 : "---", col4 : "---", col5 : "---", col6 : "---"},
-                        XRP: {col1 : "XRP",  col2 : "---", col3 : "---", col4 : "---", col5 : "---", col6 : "---"},
-                        LTC: {col1 : "LTC",  col2 : "---", col3 : "---", col4 : "---", col5 : "---", col6 : "---"},
-                        XMR: {col1 : "XMR",  col2 : "---", col3 : "---", col4 : "---", col5 : "---", col6 : "---"},
-                        ETC: {col1 : "ETC",  col2 : "---", col3 : "---", col4 : "---", col5 : "---", col6 : "---"},
-                        MAID: {col1 : "MAID", col2 : "---", col3 : "---", col4 : "---", col5 : "---", col6 : "---"},
-                        DASH: {col1 : "DASH", col2 : "---", col3 : "---", col4 : "---", col5 : "---", col6 : "---"},
-                        DOGE: {col1 : "DOGE", col2 : "---", col3 : "---", col4 : "---", col5 : "---", col6 : "---"},
-                        ZEC: {col1 : "ZEC",  col2 : "---", col3 : "---", col4 : "---", col5 : "---", col6 : "---"},
-                        LSK: {col1 : "LSK",  col2 : "---", col3 : "---", col4 : "---", col5 : "---", col6 : "---"}
-                    };
-
-
-					mySocket.on('trades', function (tradeMsg) {
-						console.log(tradeMsg);
-
-						coinArray[tradeMsg.message.coin].col2 = tradeMsg.message.msg.perc;
-						coinArray[tradeMsg.message.coin].col3 = tradeMsg.message.msg.price;
-						coinArray[tradeMsg.message.coin].col4 = tradeMsg.message.msg.mktcap;
-						coinArray[tradeMsg.message.coin].col5 = tradeMsg.message.msg.volume;
-						coinArray[tradeMsg.message.coin].col6 = tradeMsg.message.msg.supply;
-
-						$scope.coinTable = coinArray
-
-
+	.directive('animateOnChange', function($animate,$timeout) {
+		return function(scope, elem, attr) {
+			scope.$watch(attr.animateOnChange, function(nv,ov) {
+				if (nv!=ov) {
+					var c = nv > ov?'change-up':'change';
+					$animate.addClass(elem,c).then(function() {
+						$timeout(function() {$animate.removeClass(elem,c)});
 					});
 				}
-			};
+			})
+		}
+	})
+
+	.component('coinTable', {
+		templateUrl: './home/table.template.html',
+		controller: ['$http', '$filter', '$scope', 'mySocket', function CoinTableController($http, $filter, $scope, mySocket) {
+			var self = this;
+			$scope.rowData = {};
+			$http.get('http://coincap.io/front').then(function (response) {
+				console.log(response.data);
+				for (var i = 0; i < response.data.length; i++) {
+					if (response.data[i].short in self.coins) {
+						var msg = response.data[i];
+						$scope.rowData[msg.short.toString()] = {
+							name: msg.long + ' ' + msg.short,
+							mktcap: $filter('currency')(msg.mktcap, '$', 0),
+							price: $filter('currency')(msg.price, '$', 8),
+							supply: $filter('number')(msg.supply, 0),
+							volume: $filter('currency')(msg.volume, '$', 0),
+							percent: $filter('number')(msg.cap24hrChange).toString() + '%'
+						};
+					}
+					if ((self.coins.length - 1) == Object.keys($scope.rowData).length) {console.log($scope.rowData); break;}
+				}
+
+				mySocket.on('trades', function (tradeMsg) {
+					if (tradeMsg.message.msg.short in self.coins) {
+						var msg = tradeMsg.message.msg;
+
+						$scope.rowData[msg.short] = {
+							name: msg.long + ' ' + msg.short,
+							mktcap: $filter('currency')(msg.mktcap, '$', 0),
+							price: $filter('currency')(msg.price, '$', 8),
+							supply: $filter('number')(msg.supply, 0),
+							volume: $filter('currency')(msg.volume, '$', 0),
+							percent: $filter('number')(msg.cap24hrChange).toString() + '%'
+						};
+					}
+				});
+			});
 		}],
 		bindings: {
 			coins: '<'
